@@ -1,14 +1,23 @@
 #include "esf_wifi.hpp"
 
+static const char *TAG = "ESF WiFi";
+
 void esf_init_wifi_ap()
 {
     WiFi.mode(WIFI_AP_STA);
 
     bool success = WiFi.softAP(ESF_WIFI_AP_SSID);
-    ESP_LOGI("ESF WiFi", "SoftAP started with SSID: %s", ESF_WIFI_AP_SSID);
-    ESP_LOGI("ESF WiFi", "IP address: %s", WiFi.softAPIP().toString().c_str());
+    if (success)
+    {
+        ESP_LOGI(TAG, "SoftAP started with SSID: %s", ESF_WIFI_AP_SSID);
+        ESP_LOGI(TAG, "IP address: %s", WiFi.softAPIP().toString().c_str());
+    }
+    else
+    {
+        ESP_LOGE(TAG, "Failed to start SoftAP with SSID: %s", ESF_WIFI_AP_SSID);
+    }
 
-    // Sinalize that the AP has been initialized.
+    // Sinalize the AP status.
     xEventGroupSetBits(esf_wifi_event_group, success ? ESF_WIFI_AP_INIT_BIT : ESF_WIFI_AP_INIT_FAIL_BIT);
 }
 
@@ -32,5 +41,6 @@ void esf_init_wifi_sta(char *ssid, char *pwd)
         ESP_LOGE("ESF WiFi", "Failed to connect to WiFi with SSID: %s.", ssid);
     }
 
+    // Sinalize the STA status.
     xEventGroupSetBits(esf_wifi_event_group, success ? ESF_WIFI_STA_CONNECTED_BIT : ESF_WIFI_STA_FAIL_BIT);
 }
