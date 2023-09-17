@@ -1,0 +1,23 @@
+menu "Ecobucks Settings"
+    config FNDTN_ENDPOINT
+        string "Foundation Endpoint"
+        default "http://3.223.11.90/api"
+        help
+            The Foundation API endpoint.
+
+    config FNDTN_TOKEN
+        string "Token"
+        help
+            Foundation Token from an Ecobucks Operator Account.
+            Can be used instead of username and password.
+
+    config ECOBUCKS_USERNAME
+        string "Username"
+        help
+            Username from an Ecobucks Operator Account.
+
+    config ECOBUCKS_PWD
+        string "Pass****"
+        help
+            Password from an Ecobucks Operator Account.
+endmenu
