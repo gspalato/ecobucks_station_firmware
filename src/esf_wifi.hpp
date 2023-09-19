@@ -19,14 +19,18 @@ extern "C"
 {
     static const char *ESF_WIFI_AP_SSID = "Configure Ecobucks Station";
 
-    static EventGroupHandle_t esf_wifi_event_group = xEventGroupCreate();
+    static bool esf_wifi_ap_init = false;
+    static EventGroupHandle_t esf_wifi_ap_event_group = xEventGroupCreate();
+
+    static bool esf_wifi_sta_connected = false;
+    static EventGroupHandle_t esf_wifi_sta_event_group = xEventGroupCreate();
+
     const int ESF_WIFI_STA_CONNECTED_BIT = BIT0;
     const int ESF_WIFI_STA_DISCONNECTED_BIT = BIT1;
     const int ESF_WIFI_STA_FAIL_BIT = BIT2;
-    const int ESF_WIFI_AP_INIT_BIT = BIT3;
-    const int ESF_WIFI_AP_INIT_FAIL_BIT = BIT4;
-    const int ESF_WIFI_SETUP_COMPLETE_BIT = BIT5;
-    const int ESF_WIFI_RECEIVED_CREDENTIALS_BIT = BIT6;
+
+    const int ESF_WIFI_AP_INIT_BIT = BIT0;
+    const int ESF_WIFI_AP_INIT_FAIL_BIT = BIT1;
 
     void esf_init_wifi_ap();
     void esf_init_wifi_sta(char *ssid, char *pwd);

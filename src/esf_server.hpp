@@ -6,6 +6,7 @@
 #include "WiFi.h"
 #include "ESPAsyncWebServer.h"
 
+#include "esf_api.hpp"
 #include "esf_wifi.hpp"
 
 extern "C"

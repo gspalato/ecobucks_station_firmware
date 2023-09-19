@@ -4,12 +4,6 @@ static const char *TAG = "ESF Server";
 
 void esf_server_init()
 {
-    if ((xEventGroupGetBits(esf_wifi_event_group) & ESF_WIFI_AP_INIT_BIT) != 0)
-    {
-        ESP_LOGW(TAG, "WiFi Access Point not yet initialized. Waiting...");
-        xEventGroupWaitBits(esf_wifi_event_group, ESF_WIFI_AP_INIT_BIT, pdFALSE, pdTRUE, portMAX_DELAY);
-    }
-
     esf_server.on(
         "/",
         HTTP_GET,
@@ -57,7 +51,8 @@ void esf_server_init()
             ESP_LOGI(TAG, "SSID: %s | Password: %s", c_ssid, c_pwd);
 
             esf_init_wifi_sta(ssid, pwd);
-            xEventGroupSetBits(esf_wifi_event_group, ESF_WIFI_RECEIVED_CREDENTIALS_BIT);
+
+            xTaskCreate(esf_api_auth_task, "api_auth", 4 * 1024, NULL, configMAX_PRIORITIES - 2, NULL);
 
             request->send(200);
         });

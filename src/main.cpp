@@ -1,16 +1,3 @@
-#include <stdio.h>
-
-#include "freertos/FreeRTOS.h"
-#include "freertos/task.h"
-
-#include <Arduino.h>
-
-#include "esp_system.h"
-#include "esp_spi_flash.h"
-
-#include "esf_server.hpp"
-#include "esf_wifi.hpp"
-
 #include "main.hpp"
 
 static const char *TAG = "Ecobucks Station Firmware";

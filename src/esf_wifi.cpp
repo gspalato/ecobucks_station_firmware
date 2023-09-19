@@ -18,7 +18,8 @@ void esf_init_wifi_ap()
     }
 
     // Sinalize the AP status.
-    xEventGroupSetBits(esf_wifi_event_group, success ? ESF_WIFI_AP_INIT_BIT : ESF_WIFI_AP_INIT_FAIL_BIT);
+    esf_wifi_ap_init = success;
+    ESP_LOGI(TAG, "Sinalized AP status.");
 }
 
 void esf_init_wifi_sta(char *ssid, char *pwd)
@@ -42,5 +43,6 @@ void esf_init_wifi_sta(char *ssid, char *pwd)
     }
 
     // Sinalize the STA status.
-    xEventGroupSetBits(esf_wifi_event_group, success ? ESF_WIFI_STA_CONNECTED_BIT : ESF_WIFI_STA_FAIL_BIT);
+    esf_wifi_sta_connected = success;
+    ESP_LOGI(TAG, "Sinalized STA status.");
 }
