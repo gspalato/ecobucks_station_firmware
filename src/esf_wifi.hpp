@@ -1,9 +1,11 @@
 #pragma once
 
 #include <string.h>
+
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/event_groups.h"
+
 #include "esp_system.h"
 #include "esp_wifi.h"
 #include "esp_event.h"
@@ -19,10 +21,11 @@ extern "C"
 {
     static const char *ESF_WIFI_AP_SSID = "Configure Ecobucks Station";
 
+    static WiFiClient esf_wifi_client;
+
     static bool esf_wifi_ap_init = false;
     static EventGroupHandle_t esf_wifi_ap_event_group = xEventGroupCreate();
 
-    static bool esf_wifi_sta_connected = false;
     static EventGroupHandle_t esf_wifi_sta_event_group = xEventGroupCreate();
 
     const int ESF_WIFI_STA_CONNECTED_BIT = BIT0;

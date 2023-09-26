@@ -32,17 +32,13 @@ void esf_init_wifi_sta(char *ssid, char *pwd)
         WiFi.disconnect();
     }
 
-    bool success = WiFi.begin(ssid, pwd);
-    if (success)
+    wl_status_t status = WiFi.begin(ssid, pwd);
+    if (status == WL_CONNECTED)
     {
         ESP_LOGI("ESF WiFi", "Connected to WiFi with SSID: %s.", ssid);
     }
-    else
+    else if (status == WL_CONNECT_FAILED)
     {
         ESP_LOGE("ESF WiFi", "Failed to connect to WiFi with SSID: %s.", ssid);
     }
-
-    // Sinalize the STA status.
-    esf_wifi_sta_connected = success;
-    ESP_LOGI(TAG, "Sinalized STA status.");
 }
