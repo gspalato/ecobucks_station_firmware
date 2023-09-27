@@ -7,6 +7,7 @@
 #include <Arduino.h>
 #include "ArduinoHttpClient.h"
 
+#include "esf_utils.hpp"
 #include "esf_wifi.hpp"
 
 extern "C"

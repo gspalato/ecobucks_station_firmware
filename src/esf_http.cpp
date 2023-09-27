@@ -62,9 +62,11 @@ esf_http_request_result_t *esf_execute_http_post(char *hostname, char *path, cha
         result->success = true;
         result->status_code = status_code;
         result->length = body_length;
-        result->body = (char*)body;
+        result->body = (char*)safe_alloc(client.contentLength() + 1, sizeof(char));
 
-        memcpy(result->body, body, client.contentLength() + 1);
+        strcpy(result->body, body);
+
+        printf("\nBody: %s\nResponse Body: %s\n",body,result->body);
 
         return result;
     }
