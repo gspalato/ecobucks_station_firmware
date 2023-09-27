@@ -2,7 +2,7 @@
 
 static const char* TAG = "ESF Utils";
 
-void *safe_alloc(int length, size_t size, bool abort = false) {
+void *safe_alloc(int length, size_t size, bool abort) {
     size_t total = length * size;
     void *ptr = calloc(length, size);
     if (ptr == nullptr) {
@@ -13,7 +13,7 @@ void *safe_alloc(int length, size_t size, bool abort = false) {
     return ptr;
 }
 
-void *safe_alloc(void *ptr, int length, size_t size, bool abort = false) {
+void *safe_realloc(void *ptr, int length, size_t size, bool abort) {
     size_t total = length * size;
     ptr = realloc(ptr, length * size);
     if (ptr == nullptr) {
