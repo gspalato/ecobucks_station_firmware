@@ -1,6 +1,7 @@
 #include "esf_wifi.hpp"
 
 static const char *TAG = "ESF WiFi";
+static const char *ESF_WIFI_AP_SSID = "Configure Ecobucks Station";
 
 void esf_init_wifi_ap()
 {
