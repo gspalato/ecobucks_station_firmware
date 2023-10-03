@@ -10,17 +10,11 @@
 #include "esp_system.h"
 #include "esp_spi_flash.h"
 
+#include "esf_serial.hpp"
 #include "esf_server.hpp"
 #include "esf_wifi.hpp"
 #include "esf_api.hpp"
 
 #include "main.hpp"
 
-extern "C"
-{
-    static TaskHandle_t esf_task_handle_serial_init;
-
-    void esf_task_serial_init(void *arg);
-
-    void app_main();
-}
+extern "C" void app_main();

@@ -10,18 +10,16 @@
 #include "esf_utils.hpp"
 #include "esf_wifi.hpp"
 
-extern "C"
+
+static const int MAX_HTTP_OUTPUT_BUFFER = 2048;
+
+typedef struct esf_http_request_result
 {
-    static const int MAX_HTTP_OUTPUT_BUFFER = 2048;
+    bool success;
+    int status_code;
+    int length;
+    char *body;
+} esf_http_request_result_t;
 
-    typedef struct esf_http_request_result
-    {
-        bool success;
-        int status_code;
-        int length;
-        char *body;
-    } esf_http_request_result_t;
-
-    esf_http_request_result_t *esf_execute_http_get(char *hostname, char *path);
-    esf_http_request_result_t *esf_execute_http_post(char *hostname, char *path, char *post_data);
-}
+esf_http_request_result_t *esf_execute_http_get(char *hostname, char *path);
+esf_http_request_result_t *esf_execute_http_post(char *hostname, char *path, char *post_data);

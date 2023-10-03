@@ -19,8 +19,6 @@
 
 extern "C"
 {
-    static const char *ESF_WIFI_AP_SSID = "Configure Ecobucks Station";
-
     static WiFiClient esf_wifi_client;
 
     static bool esf_wifi_ap_init = false;
