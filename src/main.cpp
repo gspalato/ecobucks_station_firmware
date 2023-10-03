@@ -10,6 +10,8 @@ extern "C" void app_main()
 
     esf_init_wifi_ap();
 
+    esf_api_init();
+
     xTaskCreate(
         [](void *args)
         {
@@ -21,15 +23,4 @@ extern "C" void app_main()
         NULL,
         configMAX_PRIORITIES - 2,
         NULL);
-}
-
-void esf_task_serial_init(void *arg)
-{
-    Serial.begin(115200);
-    while (!Serial)
-        delay(10);
-
-    ESP_LOGI(TAG, "Welcome to Ecobucks Station!");
-
-    vTaskDelete(NULL);
 }
