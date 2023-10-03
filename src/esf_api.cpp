@@ -10,6 +10,8 @@ void esf_api_init()
         ESP_LOGE(TAG, "Failed to create token mutex. Aborting...");
         exit(1);
     }
+
+    ESP_LOGI(TAG, "Created Foundation token mutex.");
 }
 
 void esf_fndtn_request()
@@ -48,9 +50,9 @@ void esf_api_auth()
         return;
     }
 
-    deserializeJson(doc, response->body);
-
     ESP_LOGI(TAG, "Response: %s", response->body);
+    deserializeJson(doc, response->body);
+    free(response);
 
     if (!doc.containsKey("data"))
     {
@@ -58,15 +60,19 @@ void esf_api_auth()
         return;
     }
 
-    bool success = doc["data"]["authenticate"]["success"];
+    bool success = doc["data"]["authenticate"]["successful"];
     if (success)
     {
         const char *token = doc["data"]["authenticate"]["token"];
 
         // Lock the token mutex to modify it. Release it afterwards.
-        xSemaphoreTake(esf_fndtn_token_mutex, portMAX_DELAY);
-        esf_fndtn_token = (char *)token;
-        xSemaphoreGive(esf_fndtn_token_mutex);
+        if (xSemaphoreTake(esf_fndtn_token_mutex, portMAX_DELAY) == pdTRUE)
+        {
+            esf_fndtn_token = (char *)token;
+            xSemaphoreGive(esf_fndtn_token_mutex);
+        } else {
+            ESP_LOGE(TAG, "Couldn't access 'esf_fndtn_token_mutex' mutex semaphore. Failed to set token.");
+        };
 
         ESP_LOGI(TAG, "Successfully logged in to Foundation.\nToken: %s", token);
     }
@@ -91,7 +97,7 @@ void esf_api_auth_task(void *args)
     {
         esf_api_auth();
         vTaskDelay(3000 / portTICK_PERIOD_MS);
-    } while (esf_fndtn_token == nullptr || strlen(esf_fndtn_token) >= 1);
+    } while (esf_fndtn_token == nullptr);
 
     vTaskDelete(NULL);
 }
