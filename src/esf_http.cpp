@@ -18,7 +18,7 @@ esf_http_request_result_t *esf_execute_http_get(char *hostname, char *path)
     int body_length = response.length();
     const char* body = response.c_str();
 
-    esf_http_request_result_t *result = (esf_http_request_result_t *)calloc(1, sizeof(esf_http_request_result_t));
+    esf_http_request_result_t *result = safe_alloc<esf_http_request_result_t>(1);
     if (status_code == 200)
     {
         result->success = true;
@@ -62,7 +62,7 @@ esf_http_request_result_t *esf_execute_http_post(char *hostname, char *path, cha
         result->success = true;
         result->status_code = status_code;
         result->length = body_length;
-        result->body = (char*)safe_alloc(client.contentLength() + 1, sizeof(char));
+        result->body = safe_alloc<char>(body_length);
 
         strcpy(result->body, body);
 
