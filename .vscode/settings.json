@@ -1,4 +1,20 @@
 {
     "idf.flashType": "UART",
-    "idf.portWin": "COM3"
+    "idf.portWin": "COM5",
+    "files.associations": {
+        "ui.h": "c",
+        "ui_font_interregular40.h": "c",
+        "ui_font_interregular18.h": "c",
+        "ui_font_interregular24.h": "c",
+        "ui_font_interregular32.h": "c",
+        "arduino_gfx_library.h": "c",
+        "arduino_esp32rgbpanel.h": "c",
+        "arduino_esp32qspi.h": "c",
+        "wire.h": "c",
+        "tamc_gt911.h": "c"
+    },
+    "idf.adapterTargetName": "esp32s3",
+    "idf.openOcdConfigs": [
+        "board/esp32s3-bridge.cfg"
+    ]
 }

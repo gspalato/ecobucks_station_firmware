@@ -21,6 +21,11 @@ extern "C" void app_main()
         NULL,
         configMAX_PRIORITIES - 2,
         NULL);
+
+    esf_screen_init();
+
+    xTaskCreate(
+        esf_screen_tick, "screen_tick", 4 * 1024, NULL, configMAX_PRIORITIES - 1, &esf_task_handle_screen_tick);
 }
 
 void esf_task_serial_init(void *arg)
