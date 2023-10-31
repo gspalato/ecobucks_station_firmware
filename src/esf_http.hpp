@@ -5,22 +5,21 @@
 #include "esp_system.h"
 
 #include <Arduino.h>
-#include "HTTPClient.h"
+#include "ArduinoHttpClient.h"
 
-extern "C"
+#include "esf_utils.hpp"
+#include "esf_wifi.hpp"
+
+
+static const int MAX_HTTP_OUTPUT_BUFFER = 2048;
+
+typedef struct esf_http_request_result
 {
-    static const int MAX_HTTP_OUTPUT_BUFFER = 2048;
+    bool success;
+    int status_code;
+    int length;
+    char *body;
+} esf_http_request_result_t;
 
-    static HTTPClient *esf_http_client;
-
-    typedef struct esf_http_request_result
-    {
-        bool success;
-        int status_code;
-        int length;
-        char *body;
-    } esf_http_request_result_t;
-
-    esf_http_request_result_t *esf_execute_http_get(char *url);
-    esf_http_request_result_t *esf_execute_http_post(char *url, char *post_data);
-}
+esf_http_request_result_t *esf_execute_http_get(char *hostname, char *path);
+esf_http_request_result_t *esf_execute_http_post(char *hostname, char *path, char *post_data);

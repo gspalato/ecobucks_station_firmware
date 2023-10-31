@@ -9,10 +9,8 @@
 #include "esf_api.hpp"
 #include "esf_wifi.hpp"
 
-extern "C"
-{
-    static AsyncWebServer esf_server(80);
 
-    void esf_server_init();
-    void esf_server_deinit();
-}
+static AsyncWebServer esf_server(80);
+
+void esf_server_init();
+void esf_server_deinit();

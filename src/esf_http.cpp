@@ -1,23 +1,30 @@
 #include "esf_http.hpp"
 
-esf_http_request_result_t *esf_execute_http_get(char *url)
+static const char *TAG = "ESF HTTP";
+
+esf_http_request_result_t *esf_execute_http_get(char *hostname, char *path)
 {
-    esf_http_client->begin(url);
+    HttpClient client(esf_wifi_client, hostname);
 
-    int status_code = esf_http_client->GET();
+    int status = client.get(path);
+    if (!status) {
+        ESP_LOGE(TAG, "Failed to GET.");
+        return nullptr;
+    }
 
-    int body_length = esf_http_client->getSize();
-    char *body = (char *)esf_http_client->getString().c_str();
+    int status_code = client.responseStatusCode();
 
-    esf_http_client->end();
+    String response = client.responseBody();
+    int body_length = response.length();
+    const char* body = response.c_str();
 
-    esf_http_request_result_t *result = (esf_http_request_result_t *)calloc(1, sizeof(esf_http_request_result_t));
+    esf_http_request_result_t *result = safe_alloc<esf_http_request_result_t>(1);
     if (status_code == 200)
     {
         result->success = true;
         result->status_code = status_code;
         result->length = body_length;
-        result->body = body;
+        result->body = (char*)body;
         return result;
     }
     else
@@ -30,19 +37,24 @@ esf_http_request_result_t *esf_execute_http_get(char *url)
     }
 }
 
-esf_http_request_result_t *esf_execute_http_post(char *url, char *post_data)
+esf_http_request_result_t *esf_execute_http_post(char *hostname, char *path, char *post_data)
 {
-    int post_data_length = strlen(post_data);
-    uint8_t *post_data_as_int = (uint8_t *)post_data;
+    HttpClient client(esf_wifi_client, hostname);
 
-    esf_http_client->begin(url);
+    const char* content_type = "application/json";
 
-    int status_code = esf_http_client->POST(post_data_as_int, post_data_length);
+    int error = client.post(path, content_type, post_data);
 
-    int body_length = esf_http_client->getSize();
-    char *body = (char *)esf_http_client->getString().c_str();
+    int status_code = client.responseStatusCode();
 
-    esf_http_client->end();
+    if (error) {
+        ESP_LOGE(TAG, "Failed to POST. Status: %d", status_code);
+        return nullptr;
+    }
+
+    String response = client.responseBody();
+    int body_length = response.length();
+    const char* body = response.c_str();
 
     esf_http_request_result_t *result = (esf_http_request_result_t *)malloc(sizeof(esf_http_request_result_t));
     if (status_code == 200)
@@ -50,7 +62,12 @@ esf_http_request_result_t *esf_execute_http_post(char *url, char *post_data)
         result->success = true;
         result->status_code = status_code;
         result->length = body_length;
-        result->body = body;
+        result->body = safe_alloc<char>(body_length);
+
+        strcpy(result->body, body);
+
+        printf("\nBody: %s\nResponse Body: %s\n",body,result->body);
+
         return result;
     }
     else

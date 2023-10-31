@@ -10,6 +10,8 @@ extern "C" void app_main()
 
     esf_init_wifi_ap();
 
+    esf_api_init();
+
     xTaskCreate(
         [](void *args)
         {

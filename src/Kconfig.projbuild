@@ -1,9 +1,15 @@
 menu "Ecobucks Settings"
-    config FNDTN_ENDPOINT
-        string "Foundation Endpoint"
-        default "http://3.223.11.90/api"
+    config FNDTN_ENDPOINT_HOSTNAME
+        string "Foundation Endpoint Hostname"
+        default "http://3.223.11.90"
         help
-            The Foundation API endpoint.
+            The Foundation API endpoint hostname.
+
+    config FNDTN_ENDPOINT_PATH
+        string "Foundation Endpoint Path"
+        default "/api"
+        help
+            The Foundation API endpoint hostname.
 
     config FNDTN_TOKEN
         string "Token"

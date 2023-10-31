@@ -11,6 +11,7 @@
 #include "esp_spi_flash.h"
 
 #include "screen/esf_screen.hpp"
+#include "esf_serial.hpp"
 #include "esf_server.hpp"
 #include "esf_wifi.hpp"
 #include "esf_api.hpp"

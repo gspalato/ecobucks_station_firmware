@@ -2,6 +2,18 @@
 
 static const char *TAG = "ESF API";
 
+void esf_api_init()
+{
+    esf_fndtn_token_mutex = xSemaphoreCreateMutex();
+    if (esf_fndtn_token_mutex == NULL)
+    {
+        ESP_LOGE(TAG, "Failed to create token mutex. Aborting...");
+        exit(1);
+    }
+
+    ESP_LOGI(TAG, "Created Foundation token mutex.");
+}
+
 void esf_fndtn_request()
 {
     // Do your own thing
@@ -27,24 +39,40 @@ void esf_api_auth()
     }
 
     serializeJson(doc, json, len);
+    ESP_LOGD(TAG, "Resulting JSON: %s", json);
 
-    esf_http_request_result_t *response = esf_execute_http_post(CONFIG_FNDTN_ENDPOINT, json);
+    esf_http_request_result_t *response = esf_execute_http_post(CONFIG_FNDTN_ENDPOINT_HOSTNAME, CONFIG_FNDTN_ENDPOINT_PATH, json);
 
     doc.clear();
+
+    if (response->body == nullptr) {
+        ESP_LOGE(TAG, "Failed to authenticate with Foundation. Response body is null.");
+        return;
+    }
+
+    ESP_LOGI(TAG, "Response: %s", response->body);
     deserializeJson(doc, response->body);
+    free(response);
 
     if (!doc.containsKey("data"))
     {
         ESP_LOGE(TAG, "Failed to authenticate with Foundation.");
-        ESP_LOGE(TAG, "Response: %s", response->body);
         return;
     }
 
-    bool success = doc["data"]["authenticate"]["success"];
+    bool success = doc["data"]["authenticate"]["successful"];
     if (success)
     {
         const char *token = doc["data"]["authenticate"]["token"];
-        esf_fndtn_token = (char *)token;
+
+        // Lock the token mutex to modify it. Release it afterwards.
+        if (xSemaphoreTake(esf_fndtn_token_mutex, portMAX_DELAY) == pdTRUE)
+        {
+            esf_fndtn_token = (char *)token;
+            xSemaphoreGive(esf_fndtn_token_mutex);
+        } else {
+            ESP_LOGE(TAG, "Couldn't access 'esf_fndtn_token_mutex' mutex semaphore. Failed to set token.");
+        };
 
         ESP_LOGI(TAG, "Successfully logged in to Foundation.\nToken: %s", token);
     }
@@ -61,13 +89,15 @@ void esf_api_auth_task(void *args)
             ESP_LOGW(TAG, "Checking WiFi connection...");
             vTaskDelay(5000 / portTICK_RATE_MS);
         } while (!WiFi.isConnected());
+
+        ESP_LOGI(TAG, "WiFi connected. Proceeding to authenticate in Foundation.");
     }
 
     do
     {
         esf_api_auth();
         vTaskDelay(3000 / portTICK_PERIOD_MS);
-    } while (esf_fndtn_token == nullptr || strlen(esf_fndtn_token) >= 1);
+    } while (esf_fndtn_token == nullptr);
 
     vTaskDelete(NULL);
 }
