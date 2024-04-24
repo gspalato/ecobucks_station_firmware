@@ -19,7 +19,7 @@ void ui_QRCodeScreen_screen_init(void)
     lv_obj_set_height(ui_CreditsLabel, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(ui_CreditsLabel, LV_ALIGN_CENTER);
     lv_label_set_text(ui_CreditsLabel, "+$0");
-    lv_obj_set_style_text_font(ui_CreditsLabel, &lv_font_montserrat_48, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_CreditsLabel, &ui_font_SpaceGroteskBold40, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_QRCodeContainer = lv_obj_create(ui_QRCodeScreen);
     lv_obj_remove_style_all(ui_QRCodeContainer);
@@ -42,10 +42,6 @@ void ui_QRCodeScreen_screen_init(void)
     lv_obj_clear_flag(ui_FinishButton, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
     lv_obj_set_style_bg_color(ui_FinishButton, lv_color_hex(0x29995A), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui_FinishButton, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_left(ui_FinishButton, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_right(ui_FinishButton, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_top(ui_FinishButton, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_bottom(ui_FinishButton, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui_FinishButton, lv_color_hex(0x808080), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_FinishButton, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
@@ -56,7 +52,7 @@ void ui_QRCodeScreen_screen_init(void)
     lv_label_set_text(ui_FinishButtonLabel, "Finish");
     lv_obj_set_style_text_color(ui_FinishButtonLabel, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_FinishButtonLabel, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui_FinishButtonLabel, &lv_font_montserrat_24, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_FinishButtonLabel, &ui_font_SpaceGroteskMedium24, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     lv_obj_add_event_cb(ui_FinishButton, ui_event_FinishButton, LV_EVENT_ALL, NULL);
 

@@ -3,17 +3,16 @@
 // LVGL version: 8.3.6
 // Project name: SquareLine_Project
 
-#ifndef _UI_EVENTS_H
-#define _UI_EVENTS_H
+#ifndef _SQUARELINE_PROJECT_UI_COMP_HOOK_H
+#define _SQUARELINE_PROJECT_UI_COMP_HOOK_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-void ui_register_disposal_to_api(lv_event_t * e);
-void ui_refresh_wifi_list(lv_event_t * e);
-void ui_wifi_setup_connect(lv_event_t * e);
-void ui_hide_wifi_setup_keyboard(lv_event_t * e);
+void ui_comp_BackButton_create_hook(lv_obj_t * comp);
+void ui_comp_BackIcon1_create_hook(lv_obj_t * comp);
+void ui_comp_Header_create_hook(lv_obj_t * comp);
 
 #ifdef __cplusplus
 } /*extern "C"*/

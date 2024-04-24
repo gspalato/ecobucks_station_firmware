@@ -4,22 +4,21 @@
 #include <screen/ui/ui.h>
 
 #include <src/extra/libs/qrcode/lv_qrcode.h>
-#include "e_wifi.hpp"
 
-void OnRotateClicked(lv_event_t *e)
-{
-    auto disp = lv_disp_get_default();
-    auto rotation = (lv_disp_rot_t)((lv_disp_get_rotation(disp) + 1) % (LV_DISP_ROT_270 + 1));
-    lv_disp_set_rotation(disp, rotation);
-}
+#include "e_screen.hpp"
+#include "e_wifi.hpp"
 
 void setup()
 {
 #ifdef ARDUINO_USB_CDC_ON_BOOT
     delay(5000);
 #endif
+
     Serial.begin(115200);
     Serial.setDebugOutput(true);
+
+    e_wifi_init();
+
     log_i("Board: %s", BOARD_NAME);
     log_i("CPU: %s rev%d, CPU Freq: %d Mhz, %d core(s)", ESP.getChipModel(), ESP.getChipRevision(), getCpuFrequencyMhz(), ESP.getChipCores());
     log_i("Free heap: %d bytes", ESP.getFreeHeap());
@@ -33,8 +32,19 @@ void setup()
 
     ui_init();
 
-    // Load stuff before showing the main screen.
-    e_refresh_wifi_list();
+    xTaskCreatePinnedToCore(
+        [](void *pvParameters)
+        {
+            while (true)
+            {
+                lv_timer_handler();
+                vTaskDelay(5 / portTICK_PERIOD_MS);
+            }
+            vTaskDelete(NULL);
+        },
+        "e_screen_lvgl_timer", 8 * 1024, NULL, 10, NULL, 1);
+
+    e_screen_refresh_wifi_list();
 
     // Show the main screen.
     lv_scr_load(ui_MainScreen);
@@ -46,8 +56,4 @@ void setup()
     lv_obj_center(ui_qrcode);
 }
 
-
-void loop()
-{
-    lv_timer_handler();
-}
+void loop() {}

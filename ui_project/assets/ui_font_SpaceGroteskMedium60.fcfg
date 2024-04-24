@@ -1,0 +1,16 @@
+{
+  "codename": "SpaceGroteskMedium60",
+  "ttf_path": "/assets/SpaceGrotesk-Bold.ttf",
+  "bin_path": "/assets\\ui_font_SpaceGroteskMedium60.bin",
+  "c_path": "/assets\\ui_font_SpaceGroteskMedium60.c",
+  "cfg_path": "/assets\\ui_font_SpaceGroteskMedium60.fcfg",
+  "size": 60,
+  "bpp": 4,
+  "letters": 0,
+  "ranges": [
+    "0x20-0x7f"
+  ],
+  "symbols": "",
+  "customparams": "--no-compress --no-prefilter",
+  "uploaded": false
+}

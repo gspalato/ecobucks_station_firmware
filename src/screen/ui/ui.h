@@ -13,6 +13,8 @@ extern "C" {
 #include "lvgl.h"
 
 #include "ui_helpers.h"
+#include "components/ui_comp.h"
+#include "components/ui_comp_hook.h"
 #include "ui_events.h"
 
 // SCREEN: ui_SplashScreen
@@ -31,18 +33,22 @@ void ui_event_SwipeUpSettings(lv_event_t * e);
 extern lv_obj_t * ui_SwipeUpSettings;
 // SCREEN: ui_DisposalRegisterScreen
 void ui_DisposalRegisterScreen_screen_init(void);
+void ui_event_DisposalRegisterScreen(lv_event_t * e);
 extern lv_obj_t * ui_DisposalRegisterScreen;
-extern lv_obj_t * ui_DisposalRegisterScreenLeftContainer;
-extern lv_obj_t * ui_CurrentWeightTextLabel;
+extern lv_obj_t * ui_DisposalRegisterPanel;
+extern lv_obj_t * ui_DisposalRegisterHeader;
+void ui_event_DisposalRegisterHeaderBackButton(lv_event_t * e);
+extern lv_obj_t * ui_DisposalRegisterHeaderBackButton;
+extern lv_obj_t * ui_DisposalRegisterHeaderBackButtonIcon;
+extern lv_obj_t * ui_DisposalRegisterHeaderTitle;
+extern lv_obj_t * ui_DisposalRegisterContainer;
 extern lv_obj_t * ui_CurrentWeightLabel;
 extern lv_obj_t * ui_WeightRelativeToMaxWeightBar;
-extern lv_obj_t * ui_DisposalRegisterScreenRightContainer;
-extern lv_obj_t * ui_AddedDisposalsPanel;
-extern lv_obj_t * ui_NewDisposalButton;
-extern lv_obj_t * ui_Plus;
-void ui_event_RegisterDisposalButton(lv_event_t * e);
-extern lv_obj_t * ui_RegisterDisposalButton;
-extern lv_obj_t * ui_RegisterDisposalButtonLabel;
+extern lv_obj_t * ui_LowerBarContainer;
+extern lv_obj_t * ui_WasteTypeDropdown;
+void ui_event_RegisterButton(lv_event_t * e);
+extern lv_obj_t * ui_RegisterButton;
+extern lv_obj_t * ui_RegisterButtonLabel;
 // SCREEN: ui_QRCodeScreen
 void ui_QRCodeScreen_screen_init(void);
 extern lv_obj_t * ui_QRCodeScreen;
@@ -54,37 +60,60 @@ extern lv_obj_t * ui_FinishButtonLabel;
 // SCREEN: ui_SettingsScreen
 void ui_SettingsScreen_screen_init(void);
 extern lv_obj_t * ui_SettingsScreen;
-extern lv_obj_t * ui_ConfigurationOverlayPanel;
-extern lv_obj_t * ui_SettingsTitleLabel;
+extern lv_obj_t * ui_ConfigurationPanel;
+extern lv_obj_t * ui_SettingsHeader;
+void ui_event_SettingsHeaderBackButton(lv_event_t * e);
+extern lv_obj_t * ui_SettingsHeaderBackButton;
+extern lv_obj_t * ui_SettingHeaderBackButtonIcon;
+extern lv_obj_t * ui_SettingsHeaderTitle;
 extern lv_obj_t * ui_SettingsOptionsContainer;
 void ui_event_WifiConfigurationButton(lv_event_t * e);
 extern lv_obj_t * ui_WifiConfigurationButton;
 extern lv_obj_t * ui_WifiConfigurationButtonLabel;
-void ui_event_ExitToMainScreenSymbol(lv_event_t * e);
-extern lv_obj_t * ui_ExitToMainScreenSymbol;
 // SCREEN: ui_WifiSettingsScreen
 void ui_WifiSettingsScreen_screen_init(void);
 extern lv_obj_t * ui_WifiSettingsScreen;
 extern lv_obj_t * ui_WifiConfigurationPanel;
-extern lv_obj_t * ui_WifiConfigurationTitle;
+extern lv_obj_t * ui_Header;
+void ui_event_Header_BackButton(lv_event_t * e);
 extern lv_obj_t * ui_WifiSettingsContainer;
 extern lv_obj_t * ui_WifiSSIDContainer;
 extern lv_obj_t * ui_SSIDLabel;
 extern lv_obj_t * ui_SSIDDropdown;
+void ui_event_RefreshWifisButton(lv_event_t * e);
+extern lv_obj_t * ui_RefreshWifisButton;
+extern lv_obj_t * ui_RefreshWifisButtonIcon;
 extern lv_obj_t * ui_WifiPasswordContainer;
 extern lv_obj_t * ui_PasswordLabel;
+void ui_event_PasswordTextArea(lv_event_t * e);
 extern lv_obj_t * ui_PasswordTextArea;
 void ui_event_ConnectToWifiButton(lv_event_t * e);
 extern lv_obj_t * ui_ConnectToWifiButton;
 extern lv_obj_t * ui_ConnectToWifiButtonLabel;
+void ui_event_SetupWifiKeyboard(lv_event_t * e);
+extern lv_obj_t * ui_SetupWifiKeyboard;
 extern lv_obj_t * ui____initial_actions0;
 
 
 LV_IMG_DECLARE(ui_img_1456473992);    // assets/Ecobucks-Station-Firmware-Banner.png
 LV_IMG_DECLARE(ui_img_ecobuckstextgradient_png);    // assets/EcobucksTextGradient.png
+LV_IMG_DECLARE(ui_img_904781469);    // assets/angle-left-50x50.png
+LV_IMG_DECLARE(ui_img_1471181834);    // assets/arrows-rotate-icon-50x50.png
 
 
 
+LV_FONT_DECLARE(ui_font_SpaceGrotesk16);
+LV_FONT_DECLARE(ui_font_SpaceGrotesk20);
+LV_FONT_DECLARE(ui_font_SpaceGrotesk30);
+LV_FONT_DECLARE(ui_font_SpaceGroteskBold30);
+LV_FONT_DECLARE(ui_font_SpaceGroteskBold16);
+LV_FONT_DECLARE(ui_font_SpaceGroteskBold20);
+LV_FONT_DECLARE(ui_font_SpaceGroteskBold24);
+LV_FONT_DECLARE(ui_font_SpaceGroteskMedium24);
+LV_FONT_DECLARE(ui_font_SpaceGroteskMedium16);
+LV_FONT_DECLARE(ui_font_SpaceGroteskBold40);
+LV_FONT_DECLARE(ui_font_SpaceGroteskMedium20);
+LV_FONT_DECLARE(ui_font_SpaceGroteskMedium60);
 
 
 

@@ -62,7 +62,7 @@ void ui_MainScreen_screen_init(void)
     lv_obj_set_style_text_color(ui_GoToDisposalRegisterScreenButtonLabel, lv_color_hex(0x000000),
                                 LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_GoToDisposalRegisterScreenButtonLabel, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui_GoToDisposalRegisterScreenButtonLabel, &lv_font_montserrat_24,
+    lv_obj_set_style_text_font(ui_GoToDisposalRegisterScreenButtonLabel, &ui_font_SpaceGroteskMedium24,
                                LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_SwipeUpSettings = lv_btn_create(ui_MainScreen);

@@ -9,45 +9,95 @@ void ui_DisposalRegisterScreen_screen_init(void)
 {
     ui_DisposalRegisterScreen = lv_obj_create(NULL);
     lv_obj_clear_flag(ui_DisposalRegisterScreen, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_flex_flow(ui_DisposalRegisterScreen, LV_FLEX_FLOW_ROW);
+    lv_obj_set_flex_align(ui_DisposalRegisterScreen, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
 
-    ui_DisposalRegisterScreenLeftContainer = lv_obj_create(ui_DisposalRegisterScreen);
-    lv_obj_remove_style_all(ui_DisposalRegisterScreenLeftContainer);
-    lv_obj_set_width(ui_DisposalRegisterScreenLeftContainer, lv_pct(40));
-    lv_obj_set_height(ui_DisposalRegisterScreenLeftContainer, lv_pct(100));
-    lv_obj_set_x(ui_DisposalRegisterScreenLeftContainer, -235);
-    lv_obj_set_y(ui_DisposalRegisterScreenLeftContainer, 0);
-    lv_obj_set_align(ui_DisposalRegisterScreenLeftContainer, LV_ALIGN_CENTER);
-    lv_obj_set_flex_flow(ui_DisposalRegisterScreenLeftContainer, LV_FLEX_FLOW_COLUMN);
-    lv_obj_set_flex_align(ui_DisposalRegisterScreenLeftContainer, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER,
+    ui_DisposalRegisterPanel = lv_obj_create(ui_DisposalRegisterScreen);
+    lv_obj_set_width(ui_DisposalRegisterPanel, 760);
+    lv_obj_set_height(ui_DisposalRegisterPanel, 440);
+    lv_obj_set_x(ui_DisposalRegisterPanel, -132);
+    lv_obj_set_y(ui_DisposalRegisterPanel, -21);
+    lv_obj_set_align(ui_DisposalRegisterPanel, LV_ALIGN_CENTER);
+    lv_obj_set_flex_flow(ui_DisposalRegisterPanel, LV_FLEX_FLOW_COLUMN);
+    lv_obj_set_flex_align(ui_DisposalRegisterPanel, LV_FLEX_ALIGN_SPACE_BETWEEN, LV_FLEX_ALIGN_CENTER,
                           LV_FLEX_ALIGN_CENTER);
-    lv_obj_clear_flag(ui_DisposalRegisterScreenLeftContainer,
-                      LV_OBJ_FLAG_CLICKABLE | LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_clear_flag(ui_DisposalRegisterPanel, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_radius(ui_DisposalRegisterPanel, 15, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_DisposalRegisterPanel, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_DisposalRegisterPanel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui_DisposalRegisterPanel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_row(ui_DisposalRegisterPanel, 40, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_column(ui_DisposalRegisterPanel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_CurrentWeightTextLabel = lv_label_create(ui_DisposalRegisterScreenLeftContainer);
-    lv_obj_set_width(ui_CurrentWeightTextLabel, LV_SIZE_CONTENT);   /// 1
-    lv_obj_set_height(ui_CurrentWeightTextLabel, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_align(ui_CurrentWeightTextLabel, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_CurrentWeightTextLabel, "Waste Weight");
-    lv_obj_set_style_text_font(ui_CurrentWeightTextLabel, &lv_font_montserrat_20, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_left(ui_CurrentWeightTextLabel, 2, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_right(ui_CurrentWeightTextLabel, 2, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_top(ui_CurrentWeightTextLabel, 2, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_bottom(ui_CurrentWeightTextLabel, 20, LV_PART_MAIN | LV_STATE_DEFAULT);
+    ui_DisposalRegisterHeader = lv_obj_create(ui_DisposalRegisterPanel);
+    lv_obj_remove_style_all(ui_DisposalRegisterHeader);
+    lv_obj_set_height(ui_DisposalRegisterHeader, 50);
+    lv_obj_set_width(ui_DisposalRegisterHeader, lv_pct(100));
+    lv_obj_set_align(ui_DisposalRegisterHeader, LV_ALIGN_CENTER);
+    lv_obj_set_flex_flow(ui_DisposalRegisterHeader, LV_FLEX_FLOW_ROW);
+    lv_obj_set_flex_align(ui_DisposalRegisterHeader, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
+    lv_obj_clear_flag(ui_DisposalRegisterHeader, LV_OBJ_FLAG_CLICKABLE | LV_OBJ_FLAG_SCROLLABLE);      /// Flags
 
-    ui_CurrentWeightLabel = lv_label_create(ui_DisposalRegisterScreenLeftContainer);
+    ui_DisposalRegisterHeaderBackButton = lv_btn_create(ui_DisposalRegisterHeader);
+    lv_obj_set_width(ui_DisposalRegisterHeaderBackButton, 50);
+    lv_obj_set_height(ui_DisposalRegisterHeaderBackButton, 50);
+    lv_obj_set_x(ui_DisposalRegisterHeaderBackButton, -336);
+    lv_obj_set_y(ui_DisposalRegisterHeaderBackButton, 0);
+    lv_obj_set_align(ui_DisposalRegisterHeaderBackButton, LV_ALIGN_CENTER);
+    lv_obj_add_flag(ui_DisposalRegisterHeaderBackButton, LV_OBJ_FLAG_FLOATING | LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
+    lv_obj_clear_flag(ui_DisposalRegisterHeaderBackButton, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_bg_color(ui_DisposalRegisterHeaderBackButton, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_DisposalRegisterHeaderBackButton, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_color(ui_DisposalRegisterHeaderBackButton, lv_color_hex(0xD9D9D9),
+                                  LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_opa(ui_DisposalRegisterHeaderBackButton, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui_DisposalRegisterHeaderBackButton, 2, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui_DisposalRegisterHeaderBackButton, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_spread(ui_DisposalRegisterHeaderBackButton, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_DisposalRegisterHeaderBackButtonIcon = lv_img_create(ui_DisposalRegisterHeaderBackButton);
+    lv_img_set_src(ui_DisposalRegisterHeaderBackButtonIcon, &ui_img_904781469);
+    lv_obj_set_width(ui_DisposalRegisterHeaderBackButtonIcon, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_DisposalRegisterHeaderBackButtonIcon, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_DisposalRegisterHeaderBackButtonIcon, LV_ALIGN_CENTER);
+    lv_obj_add_flag(ui_DisposalRegisterHeaderBackButtonIcon, LV_OBJ_FLAG_ADV_HITTEST);     /// Flags
+    lv_obj_clear_flag(ui_DisposalRegisterHeaderBackButtonIcon, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_img_set_zoom(ui_DisposalRegisterHeaderBackButtonIcon, 150);
+
+    ui_DisposalRegisterHeaderTitle = lv_label_create(ui_DisposalRegisterHeader);
+    lv_obj_set_width(ui_DisposalRegisterHeaderTitle, lv_pct(100));
+    lv_obj_set_height(ui_DisposalRegisterHeaderTitle, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_DisposalRegisterHeaderTitle, LV_ALIGN_CENTER);
+    lv_obj_set_flex_flow(ui_DisposalRegisterHeaderTitle, LV_FLEX_FLOW_ROW);
+    lv_obj_set_flex_align(ui_DisposalRegisterHeaderTitle, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
+    lv_label_set_text(ui_DisposalRegisterHeaderTitle, "Dispose");
+    lv_obj_set_style_text_align(ui_DisposalRegisterHeaderTitle, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_DisposalRegisterHeaderTitle, &ui_font_SpaceGroteskBold30,
+                               LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_DisposalRegisterContainer = lv_obj_create(ui_DisposalRegisterPanel);
+    lv_obj_remove_style_all(ui_DisposalRegisterContainer);
+    lv_obj_set_height(ui_DisposalRegisterContainer, 294);
+    lv_obj_set_width(ui_DisposalRegisterContainer, lv_pct(100));
+    lv_obj_set_x(ui_DisposalRegisterContainer, 0);
+    lv_obj_set_y(ui_DisposalRegisterContainer, 53);
+    lv_obj_set_flex_flow(ui_DisposalRegisterContainer, LV_FLEX_FLOW_COLUMN);
+    lv_obj_set_flex_align(ui_DisposalRegisterContainer, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
+    lv_obj_add_flag(ui_DisposalRegisterContainer, LV_OBJ_FLAG_FLOATING);     /// Flags
+    lv_obj_clear_flag(ui_DisposalRegisterContainer, LV_OBJ_FLAG_CLICKABLE | LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_pad_row(ui_DisposalRegisterContainer, 30, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_column(ui_DisposalRegisterContainer, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_CurrentWeightLabel = lv_label_create(ui_DisposalRegisterContainer);
     lv_obj_set_width(ui_CurrentWeightLabel, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_CurrentWeightLabel, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(ui_CurrentWeightLabel, LV_ALIGN_CENTER);
     lv_label_set_text(ui_CurrentWeightLabel, "0kg");
-    lv_obj_set_style_text_font(ui_CurrentWeightLabel, &lv_font_montserrat_48, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_left(ui_CurrentWeightLabel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_right(ui_CurrentWeightLabel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_top(ui_CurrentWeightLabel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_bottom(ui_CurrentWeightLabel, 25, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_CurrentWeightLabel, &ui_font_SpaceGroteskMedium60, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_WeightRelativeToMaxWeightBar = lv_bar_create(ui_DisposalRegisterScreenLeftContainer);
+    ui_WeightRelativeToMaxWeightBar = lv_bar_create(ui_DisposalRegisterContainer);
     lv_obj_set_height(ui_WeightRelativeToMaxWeightBar, 10);
-    lv_obj_set_width(ui_WeightRelativeToMaxWeightBar, lv_pct(40));
+    lv_obj_set_width(ui_WeightRelativeToMaxWeightBar, lv_pct(30));
     lv_obj_set_align(ui_WeightRelativeToMaxWeightBar, LV_ALIGN_CENTER);
     lv_obj_set_style_bg_color(ui_WeightRelativeToMaxWeightBar, lv_color_hex(0xD5FEE4), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui_WeightRelativeToMaxWeightBar, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -61,83 +111,50 @@ void ui_DisposalRegisterScreen_screen_init(void)
                               LV_PART_INDICATOR | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui_WeightRelativeToMaxWeightBar, 255, LV_PART_INDICATOR | LV_STATE_DEFAULT);
 
-    ui_DisposalRegisterScreenRightContainer = lv_obj_create(ui_DisposalRegisterScreen);
-    lv_obj_remove_style_all(ui_DisposalRegisterScreenRightContainer);
-    lv_obj_set_width(ui_DisposalRegisterScreenRightContainer, lv_pct(60));
-    lv_obj_set_height(ui_DisposalRegisterScreenRightContainer, lv_pct(100));
-    lv_obj_set_x(ui_DisposalRegisterScreenRightContainer, 157);
-    lv_obj_set_y(ui_DisposalRegisterScreenRightContainer, 0);
-    lv_obj_set_align(ui_DisposalRegisterScreenRightContainer, LV_ALIGN_CENTER);
-    lv_obj_set_flex_flow(ui_DisposalRegisterScreenRightContainer, LV_FLEX_FLOW_COLUMN);
-    lv_obj_set_flex_align(ui_DisposalRegisterScreenRightContainer, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER,
-                          LV_FLEX_ALIGN_CENTER);
-    lv_obj_clear_flag(ui_DisposalRegisterScreenRightContainer,
-                      LV_OBJ_FLAG_CLICKABLE | LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-    lv_obj_set_style_pad_row(ui_DisposalRegisterScreenRightContainer, 10, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_column(ui_DisposalRegisterScreenRightContainer, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    ui_LowerBarContainer = lv_obj_create(ui_DisposalRegisterPanel);
+    lv_obj_remove_style_all(ui_LowerBarContainer);
+    lv_obj_set_height(ui_LowerBarContainer, 50);
+    lv_obj_set_width(ui_LowerBarContainer, lv_pct(100));
+    lv_obj_set_align(ui_LowerBarContainer, LV_ALIGN_CENTER);
+    lv_obj_set_flex_flow(ui_LowerBarContainer, LV_FLEX_FLOW_ROW);
+    lv_obj_set_flex_align(ui_LowerBarContainer, LV_FLEX_ALIGN_SPACE_BETWEEN, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
+    lv_obj_clear_flag(ui_LowerBarContainer, LV_OBJ_FLAG_CLICKABLE | LV_OBJ_FLAG_SCROLLABLE);      /// Flags
 
-    ui_AddedDisposalsPanel = lv_obj_create(ui_DisposalRegisterScreenRightContainer);
-    lv_obj_set_width(ui_AddedDisposalsPanel, 460);
-    lv_obj_set_height(ui_AddedDisposalsPanel, 392);
-    lv_obj_set_x(ui_AddedDisposalsPanel, 71);
-    lv_obj_set_y(ui_AddedDisposalsPanel, 93);
-    lv_obj_set_align(ui_AddedDisposalsPanel, LV_ALIGN_CENTER);
-    lv_obj_set_flex_flow(ui_AddedDisposalsPanel, LV_FLEX_FLOW_COLUMN);
-    lv_obj_set_flex_align(ui_AddedDisposalsPanel, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
-    lv_obj_clear_flag(ui_AddedDisposalsPanel, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-    lv_obj_set_style_radius(ui_AddedDisposalsPanel, 15, LV_PART_MAIN | LV_STATE_DEFAULT);
+    ui_WasteTypeDropdown = lv_dropdown_create(ui_LowerBarContainer);
+    lv_dropdown_set_options(ui_WasteTypeDropdown, "Recyclable\nBattery\nSponge\nElectronic Waste");
+    lv_obj_set_width(ui_WasteTypeDropdown, 532);
+    lv_obj_set_height(ui_WasteTypeDropdown, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_WasteTypeDropdown, LV_ALIGN_CENTER);
+    lv_obj_add_flag(ui_WasteTypeDropdown, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
+    lv_obj_set_style_text_font(ui_WasteTypeDropdown, &ui_font_SpaceGroteskMedium20, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_NewDisposalButton = lv_btn_create(ui_AddedDisposalsPanel);
-    lv_obj_set_width(ui_NewDisposalButton, 50);
-    lv_obj_set_height(ui_NewDisposalButton, 50);
-    lv_obj_set_align(ui_NewDisposalButton, LV_ALIGN_CENTER);
-    lv_obj_add_flag(ui_NewDisposalButton, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
-    lv_obj_clear_flag(ui_NewDisposalButton, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-    lv_obj_set_style_radius(ui_NewDisposalButton, 5, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_color(ui_NewDisposalButton, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui_NewDisposalButton, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_color(ui_NewDisposalButton, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_opa(ui_NewDisposalButton, 50, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_width(ui_NewDisposalButton, 1, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_spread(ui_NewDisposalButton, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_WasteTypeDropdown, &lv_font_montserrat_14, LV_PART_INDICATOR | LV_STATE_DEFAULT);
 
-    ui_Plus = lv_label_create(ui_NewDisposalButton);
-    lv_obj_set_width(ui_Plus, LV_SIZE_CONTENT);   /// 1
-    lv_obj_set_height(ui_Plus, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_align(ui_Plus, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_Plus, "+");
-    lv_obj_set_style_text_color(ui_Plus, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui_Plus, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui_Plus, &lv_font_montserrat_34, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_RegisterDisposalButton = lv_btn_create(ui_DisposalRegisterScreenRightContainer);
-    lv_obj_set_width(ui_RegisterDisposalButton, 150);
-    lv_obj_set_height(ui_RegisterDisposalButton, 50);
-    lv_obj_set_x(ui_RegisterDisposalButton, 4);
-    lv_obj_set_y(ui_RegisterDisposalButton, 180);
-    lv_obj_set_align(ui_RegisterDisposalButton, LV_ALIGN_CENTER);
-    lv_obj_set_flex_flow(ui_RegisterDisposalButton, LV_FLEX_FLOW_COLUMN);
-    lv_obj_set_flex_align(ui_RegisterDisposalButton, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
-    lv_obj_add_flag(ui_RegisterDisposalButton, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
-    lv_obj_clear_flag(ui_RegisterDisposalButton, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-    lv_obj_set_style_bg_color(ui_RegisterDisposalButton, lv_color_hex(0x2A995B), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui_RegisterDisposalButton, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_left(ui_RegisterDisposalButton, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_right(ui_RegisterDisposalButton, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_top(ui_RegisterDisposalButton, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_bottom(ui_RegisterDisposalButton, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_color(ui_RegisterDisposalButton, lv_color_hex(0x808080), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui_RegisterDisposalButton, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    ui_RegisterButton = lv_btn_create(ui_LowerBarContainer);
+    lv_obj_set_width(ui_RegisterButton, 150);
+    lv_obj_set_height(ui_RegisterButton, 50);
+    lv_obj_set_align(ui_RegisterButton, LV_ALIGN_CENTER);
+    lv_obj_set_flex_flow(ui_RegisterButton, LV_FLEX_FLOW_ROW);
+    lv_obj_set_flex_align(ui_RegisterButton, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
+    lv_obj_add_flag(ui_RegisterButton, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
+    lv_obj_clear_flag(ui_RegisterButton, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_bg_color(ui_RegisterButton, lv_color_hex(0x29995A), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_RegisterButton, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui_RegisterButton, lv_color_hex(0x808080), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_RegisterButton, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_RegisterDisposalButtonLabel = lv_label_create(ui_RegisterDisposalButton);
-    lv_obj_set_width(ui_RegisterDisposalButtonLabel, LV_SIZE_CONTENT);   /// 1
-    lv_obj_set_height(ui_RegisterDisposalButtonLabel, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_align(ui_RegisterDisposalButtonLabel, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_RegisterDisposalButtonLabel, "Register");
-    lv_obj_set_style_text_color(ui_RegisterDisposalButtonLabel, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui_RegisterDisposalButtonLabel, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui_RegisterDisposalButtonLabel, &lv_font_montserrat_24, LV_PART_MAIN | LV_STATE_DEFAULT);
+    ui_RegisterButtonLabel = lv_label_create(ui_RegisterButton);
+    lv_obj_set_width(ui_RegisterButtonLabel, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_RegisterButtonLabel, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_RegisterButtonLabel, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_RegisterButtonLabel, "Register");
+    lv_obj_set_style_text_color(ui_RegisterButtonLabel, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_RegisterButtonLabel, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_RegisterButtonLabel, &ui_font_SpaceGroteskMedium24, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    lv_obj_add_event_cb(ui_RegisterDisposalButton, ui_event_RegisterDisposalButton, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(ui_DisposalRegisterHeaderBackButton, ui_event_DisposalRegisterHeaderBackButton, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(ui_RegisterButton, ui_event_RegisterButton, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(ui_DisposalRegisterScreen, ui_event_DisposalRegisterScreen, LV_EVENT_ALL, NULL);
 
 }

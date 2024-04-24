@@ -1,3 +1,7 @@
+components/ui_comp_backbutton.c
+components/ui_comp_backicon1.c
+components/ui_comp_header.c
+components/ui_comp.c
 screens/ui_SplashScreen.c
 screens/ui_MainScreen.c
 screens/ui_DisposalRegisterScreen.c
@@ -10,3 +14,17 @@ ui_helpers.c
 ui_events.cpp
 images/ui_img_1456473992.c
 images/ui_img_ecobuckstextgradient_png.c
+images/ui_img_904781469.c
+images/ui_img_1471181834.c
+fonts/ui_font_SpaceGrotesk16.c
+fonts/ui_font_SpaceGrotesk20.c
+fonts/ui_font_SpaceGrotesk30.c
+fonts/ui_font_SpaceGroteskBold30.c
+fonts/ui_font_SpaceGroteskBold16.c
+fonts/ui_font_SpaceGroteskBold20.c
+fonts/ui_font_SpaceGroteskBold24.c
+fonts/ui_font_SpaceGroteskMedium24.c
+fonts/ui_font_SpaceGroteskMedium16.c
+fonts/ui_font_SpaceGroteskBold40.c
+fonts/ui_font_SpaceGroteskMedium20.c
+fonts/ui_font_SpaceGroteskMedium60.c
