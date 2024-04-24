@@ -1,0 +1,14 @@
+SET(SOURCES screens/ui_SplashScreen.c
+    screens/ui_MainScreen.c
+    screens/ui_DisposalRegisterScreen.c
+    screens/ui_QRCodeScreen.c
+    screens/ui_SettingsScreen.c
+    screens/ui_WifiSettingsScreen.c
+    ui.c
+    components/ui_comp_hook.c
+    ui_helpers.c
+    ui_events.cpp
+    images/ui_img_1456473992.c
+    images/ui_img_ecobuckstextgradient_png.c)
+
+add_library(ui ${SOURCES})

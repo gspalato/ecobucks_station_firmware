@@ -1,0 +1,16 @@
+{
+  "codename": "SpaceGrotesk20",
+  "ttf_path": "/assets/SpaceGrotesk-VariableFont_wght.ttf",
+  "bin_path": "/assets\\ui_font_SpaceGrotesk20.bin",
+  "c_path": "/assets\\ui_font_SpaceGrotesk20.c",
+  "cfg_path": "/assets\\ui_font_SpaceGrotesk20.fcfg",
+  "size": 20,
+  "bpp": 4,
+  "letters": 0,
+  "ranges": [
+    "0x20-0x7f"
+  ],
+  "symbols": "",
+  "customparams": "--no-compress --no-prefilter",
+  "uploaded": false
+}
