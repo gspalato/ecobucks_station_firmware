@@ -5,7 +5,11 @@
 
 #include "ui.h"
 
-#include "e_screen.hpp"
+#include <esp_log.h>
+
+#include <e_screen.hpp>
+
+static const char *TAG = "e_ui";
 
 void ui_register_disposal_to_api(lv_event_t * e)
 {
@@ -26,6 +30,6 @@ void ui_hide_wifi_setup_keyboard(lv_event_t * e)
 
 void ui_refresh_wifi_list(lv_event_t * e)
 {
-	e_wifi_scan();
-	//e_screen_refresh_wifi_list();
+	ESP_LOGI(TAG, "Pressed refresh WiFi button.");
+	e_rpc_scan_networks_request();
 }

@@ -1,5 +1,7 @@
 #include "e_screen.hpp"
 
+static const char *TAG = "e_screen";
+
 void e_screen_init()
 {
     xTaskCreatePinnedToCore(
@@ -23,9 +25,30 @@ void e_screen_close_keyboard(lv_obj_t *keyboard)
 
 void e_screen_refresh_wifi_list()
 {
+    e_rpc_scan_networks_request();
+}
+
+void e_screen_wifi_setup_connect()
+{
+    char *ssid = (char*)e_safe_alloc(sizeof(char), 32, false);
+    lv_dropdown_get_selected_str(ui_SSIDDropdown, ssid, 32);
+    ESP_LOGI(TAG, "SSID length: %d", strlen(ssid));
+
+    const char *password = lv_textarea_get_text(ui_PasswordTextArea);
+
+    ESP_LOGI(TAG, "Connecting to \"%s\" with password: %s", ssid, password);
+
+    e_rpc_connect_to_wifi_request(ssid, (char*)password);
+
+    free(ssid);
+}
+
+/*
+void e_screen_refresh_wifi_list()
+{
     int discovered_wifis = WiFi.scanNetworks();
 
-    log_i("Discovered %d networks", discovered_wifis);
+    ESP_LOGI(TAG, "Discovered %d networks", discovered_wifis);
 
     bool found_any_valid_network = false;
 
@@ -39,7 +62,7 @@ void e_screen_refresh_wifi_list()
         Serial.println(ssid);
 
         lv_dropdown_add_option(ui_SSIDDropdown, ssid.c_str(), LV_DROPDOWN_POS_LAST);
-        log_i("- Discovered network \"%s\" (%d)", ssid, rssi);
+        ESP_LOGI(TAG, "- Discovered network \"%s\" (%d)", ssid, rssi);
     }
 
     // Disable password input if no valid networks are found.
@@ -58,15 +81,16 @@ void e_screen_refresh_wifi_list()
     }
 }
 
+
 void e_screen_wifi_setup_connect()
 {
     char ssid[33] = {0};
     lv_dropdown_get_selected_str(ui_SSIDDropdown, ssid, 33);
-    log_i("SSID length: %d", strlen(ssid));
+    ESP_LOGI(TAG, "SSID length: %d", strlen(ssid));
 
     const char *password = lv_textarea_get_text(ui_PasswordTextArea);
 
-    log_i("Connecting to \"%s\" with password: %s", ssid, password);
+    ESP_LOGI(TAG, "Connecting to \"%s\" with password: %s", ssid, password);
 
     //e_wifi_connect_sta(ssid, (char *)password);
    
@@ -84,7 +108,7 @@ void e_screen_wifi_setup_connect()
     switch (status)
     {
     case WL_CONNECTED:
-        log_i("Connected to %s", ssid);
+        ESP_LOGI(TAG, "Connected to %s", ssid);
         lv_scr_load(ui_MainScreen);
         break;
 
@@ -114,3 +138,4 @@ void e_screen_wifi_setup_connect()
         break;
     }
 }
+*/

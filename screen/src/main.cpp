@@ -5,9 +5,10 @@
 
 #include <src/extra/libs/qrcode/lv_qrcode.h>
 
-#include "e_screen.hpp"
-#include "e_wifi.hpp"
-#include <nvs_flash.h>
+#include <e_screen.hpp>
+#include <e_serial.hpp>
+
+static const char *TAG = "main";
 
 void setup()
 {
@@ -18,13 +19,14 @@ void setup()
     Serial.begin(115200);
     Serial.setDebugOutput(true);
 
-    //e_wifi_init_sta();
+    e_serial_init();
+    e_rpc_init();
 
-    log_i("Board: %s", BOARD_NAME);
-    log_i("CPU: %s rev%d, CPU Freq: %d Mhz, %d core(s)", ESP.getChipModel(), ESP.getChipRevision(), getCpuFrequencyMhz(), ESP.getChipCores());
-    log_i("Free heap: %d bytes", ESP.getFreeHeap());
-    log_i("Free PSRAM: %d bytes", ESP.getPsramSize());
-    log_i("SDK version: %s", ESP.getSdkVersion());
+    ESP_LOGI(TAG, "Board: %s", BOARD_NAME);
+    ESP_LOGI(TAG, "CPU: %s rev%d, CPU Freq: %d Mhz, %d core(s)", ESP.getChipModel(), ESP.getChipRevision(), getCpuFrequencyMhz(), ESP.getChipCores());
+    ESP_LOGI(TAG, "Free heap: %d bytes", ESP.getFreeHeap());
+    ESP_LOGI(TAG, "Free PSRAM: %d bytes", ESP.getPsramSize());
+    ESP_LOGI(TAG, "SDK version: %s", ESP.getSdkVersion());
 
     smartdisplay_init();
 
@@ -45,11 +47,24 @@ void setup()
         },
         "lvgl_timer", 8 * 1024, NULL, 10, NULL, 1);
 
-    
-    e_screen_refresh_wifi_list();
+    xTaskCreate(
+        [](void *pvParameters)
+        {
+            while (true)
+            {
+                e_rpc_loop();
+                vTaskDelay(5 / portTICK_PERIOD_MS);
+            }
+            vTaskDelete(NULL);
+        },
+        "e_rpc_loop", 10 * 1024, NULL, tskIDLE_PRIORITY + 3, NULL);
+
+    xEventGroupWaitBits(xCoreConnectedEventGroup, CORE_CONNECTED_BIT, pdFALSE, pdFALSE, portMAX_DELAY);
 
     // Show the main screen.
     lv_scr_load(ui_MainScreen);
+
+    e_screen_refresh_wifi_list();
 
     // To use third party libraries, enable the define in lv_conf.h: #define LV_USE_QRCODE 1
     auto ui_qrcode = lv_qrcode_create(ui_QRCodeContainer, 200, lv_color_black(), lv_color_white());

@@ -2,7 +2,9 @@
 
 #include <screen/ui/ui.h>
 
-#include "e_wifi.hpp"
+#include <e_rpc.hpp>
+
+//#include "e_wifi.hpp"
 
 void e_screen_init();
 

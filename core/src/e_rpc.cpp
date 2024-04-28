@@ -16,8 +16,19 @@
 
 static const char *TAG = "e_rpc";
 
+EventGroupHandle_t xScreenConnectedEventGroup;
+
 void e_rpc_init()
 {
+    /* Attempt to create the event group. */
+    xScreenConnectedEventGroup = xEventGroupCreate();
+
+    /* Was the event group created successfully? */
+    if( xScreenConnectedEventGroup == NULL )
+    {
+        ESP_LOGE(TAG, "Failed to create the xCoreConnectedEventGroup.");
+    }
+
     UART.begin(UART_BAUDRATE, SERIAL_8N1, UART_RX_PIN, UART_TX_PIN);
 
     while (!UART)
@@ -61,21 +72,26 @@ void e_rpc_loop()
         {
         case E_RPC_METHOD::PING:
         {
-            ESP_LOGI(TAG, "Received PING.");
+            ESP_LOGI(TAG, "Received PING from Screen.");
 
             auto message = e_rpc_generate_message_pong();
+            xEventGroupSetBits(xScreenConnectedEventGroup, SCREEN_CONNECTED_BIT);
 
             UART.println(message);
+        }
+        break;
+
+        case E_RPC_METHOD::PONG:
+        {
+            ESP_LOGI(TAG, "Received PONG from Screen.");
+            xEventGroupSetBits(xScreenConnectedEventGroup, SCREEN_CONNECTED_BIT);
         }
         break;
 
         case E_RPC_METHOD::SCAN_NETWORKS:
         {
             ESP_LOGI(TAG, "Received SCAN_NETWORKS.");
-            auto networks = e_wifi_scan_networks();
-            auto message = e_rpc_generate_message_scan_network_result(*networks);
-
-            UART.println(message);
+            e_rpc_send_scan_network_result();
         }
         break;
 
@@ -161,13 +177,24 @@ char *e_rpc_generate_message_scan_network_result(std::vector<String> &networks)
         networks_doc.add(ssid);
     }
 
-    doc["networks"] = networks_doc;
+    doc["params"]["networks"] = networks_doc;
 
     int buffer_size = 1024;
     char *buffer = (char*)e_safe_alloc(sizeof(char), buffer_size, true);
     serializeJson(doc, buffer, buffer_size);
 
     return buffer;
+}
+
+/**
+ * @brief Sends the result of the WiFi network scan to the Screen.
+ * @return void
+ */
+void e_rpc_send_scan_network_result()
+{
+    auto networks = e_wifi_scan_networks();
+    auto message = e_rpc_generate_message_scan_network_result(*networks);
+    UART.println(message);
 }
 
 /**
@@ -181,7 +208,7 @@ char *e_rpc_generate_message_connect_to_wifi_result(e_wifi_connect_result_t resu
 {
     JsonDocument doc; // 200
     doc["method"] = E_RPC_METHOD::CONNECT_TO_WIFI_RESPONSE;
-    doc["result"] = result;
+    doc["params"]["result"] = result;
 
     int buffer_size = 64;
     char *buffer = (char*)e_safe_alloc(sizeof(char), buffer_size, true);

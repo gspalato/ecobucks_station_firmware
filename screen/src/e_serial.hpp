@@ -4,11 +4,11 @@
 
 #include "esp_log.h"
 
-#define UART Serial2
+#define UART Serial1
 
-#define UART_RX_PIN GPIO_NUM_16
-#define UART_TX_PIN GPIO_NUM_17
-#define UART_NUMBER 2
+#define UART_RX_PIN GPIO_NUM_17
+#define UART_TX_PIN GPIO_NUM_18
+#define UART_NUMBER 1
 #define UART_BAUDRATE 115200
 
 static const int RX_BUF_SIZE = 1024;
