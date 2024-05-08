@@ -98,7 +98,7 @@ void ui_WifiSettingsScreen_screen_init(void)
     lv_obj_set_style_text_font(ui_SSIDLabel, &ui_font_SpaceGroteskMedium24, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_SSIDDropdown = lv_dropdown_create(ui_WifiSSIDContainer);
-    lv_dropdown_set_options(ui_SSIDDropdown, "Select Wi-Fi");
+    lv_dropdown_set_options(ui_SSIDDropdown, "No networks found.");
     lv_obj_set_width(ui_SSIDDropdown, 510);
     lv_obj_set_height(ui_SSIDDropdown, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(ui_SSIDDropdown, LV_ALIGN_CENTER);
@@ -160,6 +160,7 @@ void ui_WifiSettingsScreen_screen_init(void)
     lv_textarea_set_placeholder_text(ui_PasswordTextArea, "Password");
     lv_textarea_set_one_line(ui_PasswordTextArea, true);
     lv_textarea_set_password_mode(ui_PasswordTextArea, true);
+    lv_obj_clear_flag(ui_PasswordTextArea, LV_OBJ_FLAG_CLICKABLE);      /// Flags
     lv_obj_set_style_text_font(ui_PasswordTextArea, &ui_font_SpaceGroteskMedium16, LV_PART_MAIN | LV_STATE_DEFAULT);
 
 

@@ -5,6 +5,8 @@
 
 #include <src/extra/libs/qrcode/lv_qrcode.h>
 
+#include <esp_log.h>
+
 #include <e_screen.hpp>
 #include <e_serial.hpp>
 
@@ -21,6 +23,8 @@ void setup()
 
     e_serial_init();
     e_rpc_init();
+
+    esp_log_level_set("*", ESP_LOG_NONE);
 
     ESP_LOGI(TAG, "Board: %s", BOARD_NAME);
     ESP_LOGI(TAG, "CPU: %s rev%d, CPU Freq: %d Mhz, %d core(s)", ESP.getChipModel(), ESP.getChipRevision(), getCpuFrequencyMhz(), ESP.getChipCores());

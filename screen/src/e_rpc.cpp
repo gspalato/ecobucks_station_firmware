@@ -15,7 +15,8 @@ void e_rpc_init()
         ESP_LOGE(TAG, "Failed to create the xCoreConnectedEventGroup.");
     }
 
-    UART.begin(UART_BAUDRATE, SERIAL_8N1, UART_RX_PIN, UART_TX_PIN);
+    //UART.begin(UART_BAUDRATE, SERIAL_8N1, UART_RX_PIN, UART_TX_PIN);
+    UART.begin(UART_BAUDRATE);
 
     while (!UART)
     {
@@ -43,8 +44,6 @@ void e_rpc_loop()
         String read_string = UART.readStringUntil('\n');
         const char *incoming_data = read_string.c_str();
 
-        Serial.printf("[STRING] Received data (length: %d):\n\t", read_string.length());
-        Serial.println(read_string);
         ESP_LOGI(TAG, "[C_STR] Received data (length: %d):\n\t%s", strlen(incoming_data), incoming_data);
 
         // Parse incoming data.
@@ -80,7 +79,7 @@ void e_rpc_loop()
             // The format received is
             // { "method": 0x05, "params": { "networks": ["ssid", "ssid2", "ssid3"] } }
 
-            auto networks = doc["params"]["networks"];
+            auto networks = doc["data"]["networks"];
             auto networks_size = networks.size();
 
             lv_dropdown_clear_options(ui_SSIDDropdown);
@@ -112,9 +111,9 @@ void e_rpc_loop()
 
         case E_RPC_METHOD::CONNECT_TO_WIFI_RESPONSE:
         {
-            ESP_LOGI(TAG, "Received CONNECT_TO_WIFI_RESULT.");
+            ESP_LOGI(TAG, "Received CONNECT_TO_WIFI_RESPONSE.");
 
-            int result = doc["result"];
+            int result = doc["data"]["result"];
             switch (result)
             {
                 case 0:
@@ -135,6 +134,15 @@ void e_rpc_loop()
         }
         break;
 
+        case E_RPC_METHOD::FETCH_CURRENT_WEIGHT_RESPONSE:
+        {
+            ESP_LOGI(TAG, "Received FETCH_CURRENT_WEIGHT_RESPONSE.");
+
+            long weight = doc["data"]["weight"];
+
+            lv_label_set_text_fmt(ui_CurrentWeightLabel, "%ldg", weight);
+        }
+
         default:
         {
             ESP_LOGW(TAG, "Unknown or unhandled RPC method. (0x%2X)", method);
@@ -143,6 +151,42 @@ void e_rpc_loop()
         }
     }
 }
+
+/**
+ * @brief Generates a JSON string containing the log message.
+ * @param const char *message: The message to log.
+ * @return A JSON string containing the log message.
+*/
+/*
+char *e_rpc_generate_message_log(const char *tag, e_log_level_t level, const char *message)
+{
+    JsonDocument doc; // 200
+    doc["method"] = E_RPC_METHOD::LOG;
+    doc["params"]["tag"] = tag;
+    doc["params"]["level"] = (int)level; // e_log_level_t is an enum, so we cast it to an int.
+    doc["params"]["message"] = message;
+
+    int buffer_size = 1536;
+    char *buffer = (char*)e_safe_alloc(sizeof(char), buffer_size, true);
+    serializeJson(doc, buffer, buffer_size);
+
+    return buffer;
+}
+*/
+
+/**
+ * @brief Sends a log message to the Core.
+ * @param const char *message: The message to log.
+ * @return void
+*/
+/*
+void e_rpc_log(const char *tag, e_log_level_t level, const char *message)
+{
+    auto log_message = e_rpc_generate_message_log(tag, level, message);
+    // ESP_LOGI(TAG, "Sending log message: %s", log_message);
+    UART.println(log_message);
+}
+*/
 
 /**
  * @brief Generates a JSON string containing the ping message.
@@ -170,6 +214,7 @@ char *e_rpc_generate_message_ping()
 void e_rpc_ping_request()
 {
     auto message = e_rpc_generate_message_ping();
+    ESP_LOGI(TAG, "Sending PING request: %s", message);
     UART.println(message);
 }
 
@@ -199,6 +244,7 @@ char *e_rpc_generate_message_pong()
 void e_rpc_pong_request()
 {
     auto message = e_rpc_generate_message_pong();
+    ESP_LOGI(TAG, "Sending PONG request: %s", message);
     UART.println(message);
 }
 
@@ -234,6 +280,7 @@ char *e_rpc_generate_message_connect_to_wifi_request(char *ssid, char *password)
 void e_rpc_connect_to_wifi_request(char *ssid, char *password)
 {
     auto message = e_rpc_generate_message_connect_to_wifi_request(ssid, password);
+    ESP_LOGI(TAG, "Sending CONNECT_TO_WIFI request: %s", message);
     UART.println(message);
 }
 
@@ -262,5 +309,6 @@ char *e_rpc_generate_message_scan_networks_request()
 void e_rpc_scan_networks_request()
 {
     auto message = e_rpc_generate_message_scan_networks_request();
+    ESP_LOGI(TAG, "Sending SCAN_NETWORKS request: %s", message);
     UART.println(message);
 }

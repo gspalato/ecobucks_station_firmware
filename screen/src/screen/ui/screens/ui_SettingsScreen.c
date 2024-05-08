@@ -86,33 +86,59 @@ void ui_SettingsScreen_screen_init(void)
     lv_obj_set_flex_flow(ui_SettingsOptionsContainer, LV_FLEX_FLOW_COLUMN);
     lv_obj_set_flex_align(ui_SettingsOptionsContainer, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
     lv_obj_clear_flag(ui_SettingsOptionsContainer, LV_OBJ_FLAG_CLICKABLE | LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_pad_row(ui_SettingsOptionsContainer, 20, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_column(ui_SettingsOptionsContainer, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_WifiConfigurationButton = lv_btn_create(ui_SettingsOptionsContainer);
-    lv_obj_set_height(ui_WifiConfigurationButton, 43);
-    lv_obj_set_width(ui_WifiConfigurationButton, lv_pct(100));
-    lv_obj_set_align(ui_WifiConfigurationButton, LV_ALIGN_CENTER);
-    lv_obj_add_flag(ui_WifiConfigurationButton, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
-    lv_obj_clear_flag(ui_WifiConfigurationButton, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-    lv_obj_set_style_radius(ui_WifiConfigurationButton, 10, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_color(ui_WifiConfigurationButton, lv_color_hex(0x29995A), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui_WifiConfigurationButton, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_border_color(ui_WifiConfigurationButton, lv_color_hex(0xD9D9D9), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_border_opa(ui_WifiConfigurationButton, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_border_width(ui_WifiConfigurationButton, 2, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_color(ui_WifiConfigurationButton, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_opa(ui_WifiConfigurationButton, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    ui_WifiSettingsButton = lv_btn_create(ui_SettingsOptionsContainer);
+    lv_obj_set_height(ui_WifiSettingsButton, 45);
+    lv_obj_set_width(ui_WifiSettingsButton, lv_pct(100));
+    lv_obj_set_align(ui_WifiSettingsButton, LV_ALIGN_CENTER);
+    lv_obj_add_flag(ui_WifiSettingsButton, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
+    lv_obj_clear_flag(ui_WifiSettingsButton, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_radius(ui_WifiSettingsButton, 10, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_WifiSettingsButton, lv_color_hex(0x29995A), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_WifiSettingsButton, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_color(ui_WifiSettingsButton, lv_color_hex(0xD9D9D9), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_opa(ui_WifiSettingsButton, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui_WifiSettingsButton, 2, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_color(ui_WifiSettingsButton, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_opa(ui_WifiSettingsButton, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_WifiConfigurationButtonLabel = lv_label_create(ui_WifiConfigurationButton);
-    lv_obj_set_width(ui_WifiConfigurationButtonLabel, LV_SIZE_CONTENT);   /// 1
-    lv_obj_set_height(ui_WifiConfigurationButtonLabel, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_align(ui_WifiConfigurationButtonLabel, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_WifiConfigurationButtonLabel, "Setup Wi-Fi");
-    lv_obj_set_style_text_color(ui_WifiConfigurationButtonLabel, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui_WifiConfigurationButtonLabel, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui_WifiConfigurationButtonLabel, &ui_font_SpaceGroteskMedium20,
-                               LV_PART_MAIN | LV_STATE_DEFAULT);
+    ui_WifiSettingsButtonLabel = lv_label_create(ui_WifiSettingsButton);
+    lv_obj_set_width(ui_WifiSettingsButtonLabel, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_WifiSettingsButtonLabel, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_WifiSettingsButtonLabel, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_WifiSettingsButtonLabel, "Setup Wi-Fi");
+    lv_obj_set_style_text_color(ui_WifiSettingsButtonLabel, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_WifiSettingsButtonLabel, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_WifiSettingsButtonLabel, &ui_font_SpaceGroteskMedium20, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_PingButton = lv_btn_create(ui_SettingsOptionsContainer);
+    lv_obj_set_height(ui_PingButton, 45);
+    lv_obj_set_width(ui_PingButton, lv_pct(100));
+    lv_obj_set_align(ui_PingButton, LV_ALIGN_CENTER);
+    lv_obj_add_flag(ui_PingButton, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
+    lv_obj_clear_flag(ui_PingButton, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_radius(ui_PingButton, 10, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_PingButton, lv_color_hex(0x29995A), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_PingButton, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_color(ui_PingButton, lv_color_hex(0xD9D9D9), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_opa(ui_PingButton, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui_PingButton, 2, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_color(ui_PingButton, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_opa(ui_PingButton, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_PingButtonLabel = lv_label_create(ui_PingButton);
+    lv_obj_set_width(ui_PingButtonLabel, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_PingButtonLabel, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_PingButtonLabel, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_PingButtonLabel, "Ping");
+    lv_obj_set_style_text_color(ui_PingButtonLabel, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_PingButtonLabel, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_PingButtonLabel, &ui_font_SpaceGroteskMedium20, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     lv_obj_add_event_cb(ui_SettingsHeaderBackButton, ui_event_SettingsHeaderBackButton, LV_EVENT_ALL, NULL);
-    lv_obj_add_event_cb(ui_WifiConfigurationButton, ui_event_WifiConfigurationButton, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(ui_WifiSettingsButton, ui_event_WifiSettingsButton, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(ui_PingButton, ui_event_PingButton, LV_EVENT_ALL, NULL);
 
 }

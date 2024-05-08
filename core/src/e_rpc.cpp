@@ -29,7 +29,42 @@ void e_rpc_init()
         ESP_LOGE(TAG, "Failed to create the xCoreConnectedEventGroup.");
     }
 
-    UART.begin(UART_BAUDRATE, SERIAL_8N1, UART_RX_PIN, UART_TX_PIN);
+    UART.setRxBufferSize(1024);
+    UART.begin(
+        CONFIG_CORE_SCREEN_UART_BAUDRATE,
+        SERIAL_8N1,
+        CONFIG_CORE_SCREEN_UART_PIN_RX,
+        CONFIG_CORE_SCREEN_UART_PIN_TX);
+        
+    UART.onReceiveError([](hardwareSerial_error_t error) {
+        ESP_LOGE(TAG, "UART receive error.");
+        switch (error)
+        {
+        case hardwareSerial_error_t::UART_FIFO_OVF_ERROR:
+            ESP_LOGE(TAG, "FIFO overflow error.");
+            break;
+
+        case hardwareSerial_error_t::UART_FRAME_ERROR:
+            ESP_LOGE(TAG, "Frame error.");
+            break;
+
+        case hardwareSerial_error_t::UART_PARITY_ERROR:
+            ESP_LOGE(TAG, "Parity error.");
+            break;
+
+        case hardwareSerial_error_t::UART_BUFFER_FULL_ERROR:
+            ESP_LOGE(TAG, "Buffer full.");
+            break;
+
+        case hardwareSerial_error_t::UART_BREAK_ERROR:
+            ESP_LOGE(TAG, "Break error.");
+            break;
+
+        case hardwareSerial_error_t::UART_NO_ERROR:
+            ESP_LOGI(TAG, "No error.");
+            break;
+        }
+    });
 
     while (!UART)
     {
@@ -54,11 +89,10 @@ void e_rpc_loop()
 {
     if (UART.available() > 0)
     {
+        ESP_LOGI(TAG, "Received data via UART.");
         String read_string = UART.readStringUntil('\n');
         const char *incoming_data = read_string.c_str();
 
-        Serial.printf("[STRING] Received data (length: %d):\n\t", read_string.length());
-        Serial.println(read_string);
         ESP_LOGI(TAG, "[C_STR] Received data (length: %d):\n\t%s", strlen(incoming_data), incoming_data);
 
         // Parse incoming data.
@@ -75,7 +109,7 @@ void e_rpc_loop()
             ESP_LOGI(TAG, "Received PING from Screen.");
 
             auto message = e_rpc_generate_message_pong();
-            xEventGroupSetBits(xScreenConnectedEventGroup, SCREEN_CONNECTED_BIT);
+            //xEventGroupSetBits(xScreenConnectedEventGroup, SCREEN_CONNECTED_BIT);
 
             UART.println(message);
         }
@@ -84,14 +118,14 @@ void e_rpc_loop()
         case E_RPC_METHOD::PONG:
         {
             ESP_LOGI(TAG, "Received PONG from Screen.");
-            xEventGroupSetBits(xScreenConnectedEventGroup, SCREEN_CONNECTED_BIT);
+            //xEventGroupSetBits(xScreenConnectedEventGroup, SCREEN_CONNECTED_BIT);
         }
         break;
 
         case E_RPC_METHOD::SCAN_NETWORKS:
         {
             ESP_LOGI(TAG, "Received SCAN_NETWORKS.");
-            e_rpc_send_scan_network_result();
+            e_rpc_send_scan_network_response();
         }
         break;
 
@@ -104,7 +138,7 @@ void e_rpc_loop()
             const char *password = params["password"];
 
             auto result = e_wifi_connect(ssid, password);
-            auto message = e_rpc_generate_message_connect_to_wifi_result(result);
+            auto message = e_rpc_generate_message_connect_to_wifi_response(result);
 
             UART.println(message);
         }
@@ -162,7 +196,7 @@ char *e_rpc_generate_message_pong()
  *
  * @example { "method": 0x05, "networks": ["SSID1", "SSID2", "SSID3"] }
  */
-char *e_rpc_generate_message_scan_network_result(std::vector<String> &networks)
+char *e_rpc_generate_message_scan_network_response(std::vector<String> &networks)
 {
     JsonDocument doc; // 2048
     doc["method"] = E_RPC_METHOD::SCAN_NETWORKS_RESPONSE;
@@ -177,7 +211,7 @@ char *e_rpc_generate_message_scan_network_result(std::vector<String> &networks)
         networks_doc.add(ssid);
     }
 
-    doc["params"]["networks"] = networks_doc;
+    doc["data"]["networks"] = networks_doc;
 
     int buffer_size = 1024;
     char *buffer = (char*)e_safe_alloc(sizeof(char), buffer_size, true);
@@ -190,10 +224,10 @@ char *e_rpc_generate_message_scan_network_result(std::vector<String> &networks)
  * @brief Sends the result of the WiFi network scan to the Screen.
  * @return void
  */
-void e_rpc_send_scan_network_result()
+void e_rpc_send_scan_network_response()
 {
     auto networks = e_wifi_scan_networks();
-    auto message = e_rpc_generate_message_scan_network_result(*networks);
+    auto message = e_rpc_generate_message_scan_network_response(*networks);
     UART.println(message);
 }
 
@@ -204,15 +238,37 @@ void e_rpc_send_scan_network_result()
  *
  * @example { "method": 0x07, "result": 0x00 }
  */
-char *e_rpc_generate_message_connect_to_wifi_result(e_wifi_connect_result_t result)
+char *e_rpc_generate_message_connect_to_wifi_response(e_wifi_connect_result_t result)
 {
     JsonDocument doc; // 200
     doc["method"] = E_RPC_METHOD::CONNECT_TO_WIFI_RESPONSE;
-    doc["params"]["result"] = result;
+    doc["data"]["result"] = result;
 
     int buffer_size = 64;
     char *buffer = (char*)e_safe_alloc(sizeof(char), buffer_size, true);
     serializeJson(doc, buffer, buffer_size);
 
     return buffer;
+}
+
+char *e_rpc_generate_message_fetch_current_weight_response(long weight)
+{
+    JsonDocument doc; // 200
+    doc["method"] = E_RPC_METHOD::FETCH_CURRENT_WEIGHT_RESPONSE;
+    doc["data"]["weight"] = weight;
+
+    int buffer_size = 64;
+    char *buffer = (char*)e_safe_alloc(sizeof(char), buffer_size, true);
+    serializeJson(doc, buffer, buffer_size);
+
+    return buffer;
+}
+
+void e_rpc_send_fetch_current_weight_response()
+{
+    long weight;
+    xQueuePeek(e_scale_weight_buffer, &weight, 0);
+    
+    auto message = e_rpc_generate_message_fetch_current_weight_response(weight);
+    UART.println(message);
 }

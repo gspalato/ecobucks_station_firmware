@@ -121,10 +121,15 @@ void ui_DisposalRegisterScreen_screen_init(void)
     lv_obj_set_width(ui_WasteTypeDropdown, 530);
     lv_obj_set_height(ui_WasteTypeDropdown, 50);
     lv_obj_set_align(ui_WasteTypeDropdown, LV_ALIGN_CENTER);
+    lv_obj_set_flex_flow(ui_WasteTypeDropdown, LV_FLEX_FLOW_COLUMN);
+    lv_obj_set_flex_align(ui_WasteTypeDropdown, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
     lv_obj_add_flag(ui_WasteTypeDropdown, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
     lv_obj_set_style_text_font(ui_WasteTypeDropdown, &ui_font_SpaceGroteskMedium20, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    lv_obj_set_style_text_font(ui_WasteTypeDropdown, &lv_font_montserrat_14, LV_PART_INDICATOR | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_letter_space(ui_WasteTypeDropdown, 0, LV_PART_INDICATOR | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_line_space(ui_WasteTypeDropdown, 0, LV_PART_INDICATOR | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui_WasteTypeDropdown, LV_TEXT_ALIGN_CENTER, LV_PART_INDICATOR | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_WasteTypeDropdown, &lv_font_montserrat_20, LV_PART_INDICATOR | LV_STATE_DEFAULT);
 
 
     ui_RegisterButton = lv_btn_create(ui_LowerBarContainer);

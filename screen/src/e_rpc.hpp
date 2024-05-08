@@ -18,6 +18,9 @@ extern EventGroupHandle_t xCoreConnectedEventGroup;
 void e_rpc_init();
 void e_rpc_loop();
 
+//char *e_rpc_generate_message_log(const char *tag, e_log_level_t level, const char *message);
+//void e_rpc_log(const char *tag, e_log_level_t level, const char *message);
+
 void e_rpc_connect_to_wifi_request(char *ssid, char *password);
 void e_rpc_scan_networks_request();
 

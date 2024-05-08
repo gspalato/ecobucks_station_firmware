@@ -68,9 +68,12 @@ lv_obj_t * ui_SettingsHeaderBackButton;
 lv_obj_t * ui_SettingHeaderBackButtonIcon;
 lv_obj_t * ui_SettingsHeaderTitle;
 lv_obj_t * ui_SettingsOptionsContainer;
-void ui_event_WifiConfigurationButton(lv_event_t * e);
-lv_obj_t * ui_WifiConfigurationButton;
-lv_obj_t * ui_WifiConfigurationButtonLabel;
+void ui_event_WifiSettingsButton(lv_event_t * e);
+lv_obj_t * ui_WifiSettingsButton;
+lv_obj_t * ui_WifiSettingsButtonLabel;
+void ui_event_PingButton(lv_event_t * e);
+lv_obj_t * ui_PingButton;
+lv_obj_t * ui_PingButtonLabel;
 
 
 // SCREEN: ui_WifiSettingsScreen
@@ -99,8 +102,8 @@ lv_obj_t * ui_ConnectToWifiButtonLabel;
 void ui_event_SetupWifiKeyboard(lv_event_t * e);
 lv_obj_t * ui_SetupWifiKeyboard;
 lv_obj_t * ui____initial_actions0;
-const lv_img_dsc_t * ui_imgset_942664913[1] = {&ui_img_1471181834};
 const lv_img_dsc_t * ui_imgset_849879536[1] = {&ui_img_904781469};
+const lv_img_dsc_t * ui_imgset_942664913[1] = {&ui_img_1471181834};
 
 ///////////////////// TEST LVGL SETTINGS ////////////////////
 #if LV_COLOR_DEPTH != 16
@@ -173,12 +176,20 @@ void ui_event_SettingsHeaderBackButton(lv_event_t * e)
         _ui_screen_change(&ui_MainScreen, LV_SCR_LOAD_ANIM_NONE, 250, 0, &ui_MainScreen_screen_init);
     }
 }
-void ui_event_WifiConfigurationButton(lv_event_t * e)
+void ui_event_WifiSettingsButton(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
     lv_obj_t * target = lv_event_get_target(e);
     if(event_code == LV_EVENT_CLICKED) {
         _ui_screen_change(&ui_WifiSettingsScreen, LV_SCR_LOAD_ANIM_NONE, 250, 0, &ui_WifiSettingsScreen_screen_init);
+    }
+}
+void ui_event_PingButton(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_CLICKED) {
+        ui_ping_core(e);
     }
 }
 void ui_event_WifiSettingsHeaderBackButton(lv_event_t * e)

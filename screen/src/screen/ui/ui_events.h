@@ -11,6 +11,7 @@ extern "C" {
 #endif
 
 void ui_register_disposal_to_api(lv_event_t * e);
+void ui_ping_core(lv_event_t * e);
 void ui_refresh_wifi_list(lv_event_t * e);
 void ui_wifi_setup_connect(lv_event_t * e);
 void ui_hide_wifi_setup_keyboard(lv_event_t * e);

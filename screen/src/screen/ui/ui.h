@@ -68,9 +68,12 @@ extern lv_obj_t * ui_SettingsHeaderBackButton;
 extern lv_obj_t * ui_SettingHeaderBackButtonIcon;
 extern lv_obj_t * ui_SettingsHeaderTitle;
 extern lv_obj_t * ui_SettingsOptionsContainer;
-void ui_event_WifiConfigurationButton(lv_event_t * e);
-extern lv_obj_t * ui_WifiConfigurationButton;
-extern lv_obj_t * ui_WifiConfigurationButtonLabel;
+void ui_event_WifiSettingsButton(lv_event_t * e);
+extern lv_obj_t * ui_WifiSettingsButton;
+extern lv_obj_t * ui_WifiSettingsButtonLabel;
+void ui_event_PingButton(lv_event_t * e);
+extern lv_obj_t * ui_PingButton;
+extern lv_obj_t * ui_PingButtonLabel;
 // SCREEN: ui_WifiSettingsScreen
 void ui_WifiSettingsScreen_screen_init(void);
 extern lv_obj_t * ui_WifiSettingsScreen;
@@ -109,19 +112,19 @@ LV_IMG_DECLARE(ui_img_1471181834);    // assets/arrows-rotate-icon-50x50.png
 LV_FONT_DECLARE(ui_font_SpaceGrotesk16);
 LV_FONT_DECLARE(ui_font_SpaceGrotesk20);
 LV_FONT_DECLARE(ui_font_SpaceGrotesk30);
-LV_FONT_DECLARE(ui_font_SpaceGroteskBold30);
 LV_FONT_DECLARE(ui_font_SpaceGroteskBold16);
 LV_FONT_DECLARE(ui_font_SpaceGroteskBold20);
 LV_FONT_DECLARE(ui_font_SpaceGroteskBold24);
-LV_FONT_DECLARE(ui_font_SpaceGroteskMedium24);
-LV_FONT_DECLARE(ui_font_SpaceGroteskMedium16);
+LV_FONT_DECLARE(ui_font_SpaceGroteskBold30);
 LV_FONT_DECLARE(ui_font_SpaceGroteskBold40);
+LV_FONT_DECLARE(ui_font_SpaceGroteskMedium16);
 LV_FONT_DECLARE(ui_font_SpaceGroteskMedium20);
+LV_FONT_DECLARE(ui_font_SpaceGroteskMedium24);
 LV_FONT_DECLARE(ui_font_SpaceGroteskMedium60);
-LV_FONT_DECLARE(ui_font_SyneExtraBold30);
 LV_FONT_DECLARE(ui_font_SyneBold30);
-LV_FONT_DECLARE(ui_font_SyneSemiBold30);
+LV_FONT_DECLARE(ui_font_SyneExtraBold30);
 LV_FONT_DECLARE(ui_font_SyneSemiBold24);
+LV_FONT_DECLARE(ui_font_SyneSemiBold30);
 
 
 

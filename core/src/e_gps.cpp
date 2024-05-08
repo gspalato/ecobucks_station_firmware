@@ -6,7 +6,12 @@ TinyGPSPlus gps;
 
 void e_gps_init()
 {
-    GPS_SERIAL.begin(GPS_BAUDRATE, SERIAL_8N1, GPS_RX_PIN, GPS_TX_PIN);
+    GPS_SERIAL.begin(
+        CONFIG_CORE_GPS_SERIAL_BAUDRATE,
+        SERIAL_8N1,
+        CONFIG_CORE_GPS_SERIAL_PIN_RX,
+        CONFIG_CORE_GPS_SERIAL_PIN_TX);
+
     ESP_LOGI(TAG, "GPS initialized.");
 }
 
@@ -20,7 +25,7 @@ void e_gps_loop()
             e_gps_display_info();
     }
 
-    if (millis() > GPS_MAX_TIMEOUT && gps.charsProcessed() < 10)
+    if (millis() > CONFIG_CORE_GPS_MAX_TIMEOUT && gps.charsProcessed() < 10)
     {
         ESP_LOGE(TAG, "No GPS detected: check wiring.");
     }

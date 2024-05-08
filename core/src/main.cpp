@@ -6,12 +6,11 @@ extern "C" void app_main()
 {
     initArduino();
 
+    e_scale_init();
     e_serial_init();
     e_rpc_init();
     // e_gps_init();
 
-    // Turn on LED.
-    digitalWrite(GPIO_NUM_2, HIGH);
 
     xTaskCreate(
         [](void *pvParameters)
@@ -23,7 +22,7 @@ extern "C" void app_main()
             }
             vTaskDelete(NULL);
         },
-        "e_rpc_loop", 10 * 1024, NULL, tskIDLE_PRIORITY + 3, NULL);
+        "e_rpc_loop", 10 * 1024, NULL, 5, NULL);
 
     /*
     xTaskCreate(
@@ -39,7 +38,19 @@ extern "C" void app_main()
         "e_gps_loop", 5 * 1024, NULL, tskIDLE_PRIORITY + 2, NULL);
     */
 
-   e_rpc_send_scan_network_result();
+   xTaskCreate(
+        [](void *pvParameters)
+        {
+            while (true)
+            {
+                e_scale_loop();
+                vTaskDelay(500 / portTICK_PERIOD_MS);
+            }
+            vTaskDelete(NULL);
+        },
+        "e_scale_loop", 5 * 1024, NULL, tskIDLE_PRIORITY + 4, NULL);
+
+   e_rpc_send_scan_network_response();
 }
 
 void loop() { }

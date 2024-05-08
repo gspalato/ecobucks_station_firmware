@@ -19,18 +19,18 @@ SET(SOURCES components/ui_comp_backbutton.c
     fonts/ui_font_SpaceGrotesk16.c
     fonts/ui_font_SpaceGrotesk20.c
     fonts/ui_font_SpaceGrotesk30.c
-    fonts/ui_font_SpaceGroteskBold30.c
     fonts/ui_font_SpaceGroteskBold16.c
     fonts/ui_font_SpaceGroteskBold20.c
     fonts/ui_font_SpaceGroteskBold24.c
-    fonts/ui_font_SpaceGroteskMedium24.c
-    fonts/ui_font_SpaceGroteskMedium16.c
+    fonts/ui_font_SpaceGroteskBold30.c
     fonts/ui_font_SpaceGroteskBold40.c
+    fonts/ui_font_SpaceGroteskMedium16.c
     fonts/ui_font_SpaceGroteskMedium20.c
+    fonts/ui_font_SpaceGroteskMedium24.c
     fonts/ui_font_SpaceGroteskMedium60.c
-    fonts/ui_font_SyneExtraBold30.c
     fonts/ui_font_SyneBold30.c
-    fonts/ui_font_SyneSemiBold30.c
-    fonts/ui_font_SyneSemiBold24.c)
+    fonts/ui_font_SyneExtraBold30.c
+    fonts/ui_font_SyneSemiBold24.c
+    fonts/ui_font_SyneSemiBold30.c)
 
 add_library(ui ${SOURCES})

@@ -1,0 +1,70 @@
+menu "Ecobucks Station Settings"
+
+    config CORE_API_ACCOUNT_USERNAME
+        string "Ecobucks Operator Account Username"
+        help
+            "The Ecobucks' Operator account username for this machine."
+
+    config CORE_API_ACCOUNT_PASSWORD
+        string "Ecobucks Operator Account Password"
+        help
+            "The Ecobucks' Operator account password for this machine."
+
+
+    config CORE_SCREEN_UART_PIN_RX
+        int "Screen UART RX Pin"
+        default 22
+        help
+            "The RX pin for the UART connection to the Screen."
+
+    config CORE_SCREEN_UART_PIN_TX
+        int "Screen UART TX Pin"
+        default 23
+        help
+            "The TX pin for the UART connection to the Screen."
+
+    config CORE_SCREEN_UART_BAUDRATE
+        int "Screen UART Baudrate"
+        default 9600
+        help
+            "The baudrate for the Screen UART connection."
+
+
+    config CORE_SCALE_PIN_DOUT
+        int "Scale DOUT Pin"
+        default 32
+        help
+            "The HX711 module's DOUT pin."
+
+    config CORE_SCALE_PIN_SCK
+        int "Scale SCK Pin"
+        default 33
+        help
+            "The HX711 module's SCK pin."
+
+    
+    config CORE_GPS_SERIAL_PIN_RX
+        int "GPS Serial RX Pin"
+        default 2
+        help
+            "The GPS' serial RX pin."
+
+    config CORE_GPS_SERIAL_PIN_TX
+        int "GPS Serial TX Pin"
+        default 4
+        help
+            "The GPS' serial TX pin."
+
+    config CORE_GPS_SERIAL_BAUDRATE
+        int "GPS Serial Baudrate"
+        default 9600
+        help
+            "The GPS' serial baudrate."
+
+    config CORE_GPS_MAX_TIMEOUT
+        int "GPS Max Timeout"
+        default 5000
+        help
+            "The GPS' reading timeout."
+
+endmenu

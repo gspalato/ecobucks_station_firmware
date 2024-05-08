@@ -6,5 +6,6 @@
 
 #include <e_gps.hpp>
 #include <e_rpc.hpp>
+#include <e_scale.hpp>
 #include <e_serial.hpp>
 #include <e_wifi.hpp>

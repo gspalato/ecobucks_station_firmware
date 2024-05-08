@@ -11,6 +11,12 @@
 
 static const char *TAG = "e_ui";
 
+void ui_ping_core(lv_event_t * e)
+{
+	ESP_LOGI(TAG, "Pressed ping core button.");
+	e_rpc_ping_request();
+}
+
 void ui_register_disposal_to_api(lv_event_t * e)
 {
 	
